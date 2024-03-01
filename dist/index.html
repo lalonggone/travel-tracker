@@ -7,18 +7,30 @@
   <title>Travel Tracker</title>
 </head>
 <body>
-  <main class="main">
-    <header class="header">
-      <div class="container">
-        <div class="header-logo">TRAVEL TRACKER</div>
-        <div class="header-menu">
-          <a class="link1">another HTML page</a>
-          <a class="link2">another HTML page</a>
-          <a class="link3">and another</a>
-        </div>
-      </div>
-    </header>
+  <header class="header">
+    <section class="header-container">
+      <h1 class="header-title">TRAVEL TRACKER</h1>
+      <h2 class="welcome-title">Welcome, User</h2>
+    </section>
+  </header>
+  <main>
+    <section class="all-trips hidden">
+      <h2>Your Trips</h2>
+      <button type="button" class="button button-filter" id="past-trips">Past Trips</button>
+      <button type="button" class="button button-filter" id="approved-trips">Approved Trips</button>
+      <button type="button" class="button button-filter" id="pending-trips">Pending Trips</button>
+      <section class="trip-card-contianer">
+        <article class="card">
+          <h3 class="card-destination"></h3>
+          <img class="card-image" alt="alt-text">
+          <p class="card-travelers"></p>
+          <p class="card-date"></p>
+          <p class="card-duration"></p>
+          <p class="card-status"></p>
+        </article>
+      </section>
   </main>
+  <footer></footer>
   <script src="bundle.js"></script>
 </body>
 </html>
