@@ -1,6 +1,3 @@
-// import { initiateUserFunctions, initiateHydrationFunctions, initiateSleepFunctions } from "./scripts"
-// import { displayError } from "./domUpdates"
-
 function getAllData() {
     const singleTraveler = fetch('http://localhost:3001/api/v1/travelers/20')
         .then(resp => resp.json())
