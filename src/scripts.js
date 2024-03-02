@@ -1,9 +1,4 @@
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-
 import { getAllData } from './apiCalls';
 import { updateWelcomeTitle, clearTripContainers, addTripToContainer, checkAndDisplayEmptyMessage } from './domUpdates';
 
@@ -11,15 +6,15 @@ let currentTraveler;
 
 document.addEventListener('DOMContentLoaded', () => {
     // replace ID with actual login...
-    const currentTravelerId = 27;
+    const currentTravelerId = 45;
 
     getAllData().then(data => {
         const { travelers, trips, destinations } = data;
         
         currentTraveler = travelers.find(traveler => traveler.id === currentTravelerId);
-        // console.log('currentTraveler', currentTraveler)
+        // console.log('CURRENT TRAVELER, currentTraveler)
         const travelerTrips = trips.filter(trip => trip.userID === currentTravelerId);
-        // console.log('travelerTrips', travelerTrips)
+        console.log('traveler\'s trips', travelerTrips)
         updateWelcomeTitle(currentTraveler.name);
         clearTripContainers();
 
@@ -39,15 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (trip.status === 'approved') {
                 addTripToContainer(tripWithDetails, '.approved-trips-container');
-                addTripToContainer(tripWithDetails, '.past-trips-container');
             } else if (trip.status === 'pending') {
                 addTripToContainer(tripWithDetails, '.pending-trips-container');
             } else {
+                addTripToContainer(tripWithDetails, '.past-trips-container');
             }
 
+        });
         checkAndDisplayEmptyMessage('.pending-trips-container', 'pending');
         checkAndDisplayEmptyMessage('.past-trips-container', 'past');
         checkAndDisplayEmptyMessage('.approved-trips-container', 'upcoming');
-        });
     });
 });
