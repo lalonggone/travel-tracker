@@ -1,3 +1,6 @@
+// lets see what we're working with!
+// get that DATA and send it to scripts.js
+
 function getAllData() {
     return Promise.all([
         fetch('http://localhost:3001/api/v1/travelers').then(resp => resp.json()),

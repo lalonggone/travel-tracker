@@ -1,3 +1,5 @@
+// this is where the magic happens :)
+
 import './css/styles.scss';
 import { getAllData } from './apiCalls';
 import { 
@@ -21,16 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTripContainers();
         
         const travelerTrips = trips.filter(trip => trip.userID === currentTravelerId);
-        const processedDestinations = processDestinations(travelerTrips, destinations);
-        const totalCost = calculateTotalTripCost(travelerTrips, processedDestinations);
+        const processedTrips = processTrips(travelerTrips, destinations);
+        const totalCost = calculateTotalTripCost(travelerTrips, destinations);
         
-        processedDestinations.forEach(tripWithDetails => {
-            if (tripWithDetails.status === 'approved') {
-                addTripToContainer(tripWithDetails, '.approved-trips-container');
-            } else if (tripWithDetails.status === 'pending') {
-                addTripToContainer(tripWithDetails, '.pending-trips-container');
+        processedTrips.forEach(processedTrip => {
+            if (processedTrip.status === 'approved') {
+                addTripToContainer(processedTrip, '.approved-trips-container');
+            } else if (processedTrip.status === 'pending') {
+                addTripToContainer(processedTrip, '.pending-trips-container');
             } else {
-                addTripToContainer(tripWithDetails, '.past-trips-container');
+                addTripToContainer(processedTrip, '.past-trips-container');
             }
         });
 
@@ -41,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function processDestinations(travelerTrips, destinations) {
+function processTrips(travelerTrips, destinations) {
     return travelerTrips.map(trip => {
         const destination = destinations.find(dest => dest.id === trip.destinationID);
         return {
@@ -56,8 +58,19 @@ function processDestinations(travelerTrips, destinations) {
     });
 }
 
-function calculateTotalTripCost(travelerTrips, processedDestinations) {
+function calculateTotalTripCost(travelerTrips, destinations) {
+    let totalCost = 0;
 
+    travelerTrips.forEach(trip => {
+        const destination = destinations.find(dest => dest.id === trip.destinationID);
 
+            const tripFlightCost = destination.estimatedFlightCostPerPerson * trip.travelers;
+            const tripLodgingCost = destination.estimatedLodgingCostPerDay * trip.duration;
+            // console.log(tripFlightCost, tripLodgingCost);
 
+            totalCost += tripFlightCost + tripLodgingCost;
+    });
+
+    return totalCost; 
 }
+

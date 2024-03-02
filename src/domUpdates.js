@@ -1,3 +1,6 @@
+// function definitions that update the elusive 'DOM'
+// later called in scrips.js 
+
 function updateWelcomeTitle(name) {
     const welcomeTitle = document.querySelector('.welcome-title');
     welcomeTitle.textContent = `Welcome, ${name}`;
@@ -33,14 +36,10 @@ function checkAndDisplayEmptyMessage(containerClass, tripType) {
     }
 }
 
-// find the destination... if the destination.id === trip.id
-
 function displayTotalCost(totalCost) {
     const costDisplayElement = document.querySelector('.total-spent');
-    costDisplayElement.textContent = `Total Trip Cost: ${totalCost}`;
+    costDisplayElement.textContent = `You've spent $${totalCost} on traveling the world!`;
 }
-
-
 
 export { 
     updateWelcomeTitle, 
