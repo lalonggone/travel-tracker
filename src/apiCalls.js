@@ -1,5 +1,3 @@
-
-
 function getAllData() {
     return Promise.all([
         fetch('http://localhost:3001/api/v1/travelers').then(resp => resp.json()),
@@ -15,8 +13,6 @@ function getAllData() {
     })
     .catch(error => console.error(error));
 }
-
-
 
 export {
     getAllData
