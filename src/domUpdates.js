@@ -27,7 +27,6 @@ function addTripToContainer(trip, containerClass) {
 function checkAndDisplayEmptyMessage(containerClass, tripType) {
     const container = document.querySelector(containerClass);
     if (container.children.length === 0) { 
-        console.log(container.children.length)
         const messageElement = document.createElement('p');
         messageElement.textContent = `You have no ${tripType} trips.`;
         container.appendChild(messageElement);
@@ -36,8 +35,17 @@ function checkAndDisplayEmptyMessage(containerClass, tripType) {
 
 // find the destination... if the destination.id === trip.id
 
-// function calculateTotalTripCost(trips, destinations) {
-//     const destination = 
-// }
+function displayTotalCost(totalCost) {
+    const costDisplayElement = document.querySelector('.total-spent');
+    costDisplayElement.textContent = `Total Trip Cost: ${totalCost}`;
+}
 
-export { updateWelcomeTitle, clearTripContainers, addTripToContainer, checkAndDisplayEmptyMessage };
+
+
+export { 
+    updateWelcomeTitle, 
+    clearTripContainers, 
+    addTripToContainer, 
+    checkAndDisplayEmptyMessage,
+    displayTotalCost,
+    };
