@@ -1,6 +1,6 @@
 // lets see what we're working with!
 // get that DATA and send it to scripts.js
-import { successfulTripBooked } from "./domUpdates";
+import { successfulTripBooked, fillOutAllFields } from "./domUpdates";
 let nextTripId;
 
 function getAllData() {
@@ -40,10 +40,17 @@ function postTrip(id, userID, destinationID, numTravelers, date, numDays) {
       "Content-Type": "application/json",
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if(response.status === 422) {
+        fillOutAllFields()
+      }
+      response.json()
+    })
     .then((json) => {
+      if(response.ok) {
       successfulTripBooked();
       console.log("JSON DERULOOO", json);
+      }
     })
     .catch((err) => console.log(err, "error"));
 }

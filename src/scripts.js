@@ -18,9 +18,7 @@ let currentTraveler;
 const currentTravelerId = 4;
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log(currentTravelerId);
-  // logIn();
-
+  
   getAllData().then((data) => {
     const { travelers, trips, destinations } = data;
     currentTraveler = travelers.find(
@@ -46,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    logIn()
     displayTotalCost(totalCost);
     buildBookingSection(destinations);
     singleTripCostButton(destinations);

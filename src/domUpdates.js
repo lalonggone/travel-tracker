@@ -5,15 +5,22 @@ import { calculateSingleTripCost, currentTravelerId } from "./scripts";
 import { postTrip, nextTripId } from "./apiCalls";
 
 function logIn() {
-  const logInButton = document.querySelector('#login-button')
+  const logInButton = document.querySelector('#loginBtn')
 
-  logInButton.addEventListener("click", (event) => {
-    event.preventDefault();
+  logInButton.addEventListener("click", () => {
     console.log("inputStuff")
   })
-  // if username contains traveler.id then that is the cuurent traveler
-  // and password must === travel
-  // else display 'invalid log in'
+
+  // get user input values username n password
+
+  // turn the username into a single number.. ??
+  // if that number matches any traveler.id then return that traveler
+  // if it doesn't match any then return 'invalid'
+
+  // if password === 'travel' AND all of the above is gtg, then change the page view
+
+  // unhide the 
+
 }
 
 function updateWelcomeTitle(name) {
@@ -57,9 +64,7 @@ function singleTripCostButton(destinations) {
       }
       container.appendChild(costElement);
     } else {
-      document.querySelector(
-        ".booking-title"
-      ).innerText = `Please fill out all form fields!`;
+      fillOutAllFields()
     }
   });
 }
@@ -85,6 +90,12 @@ function successfulTripBooked() {
   document.querySelector(
     ".booking-title"
   ).innerText = `Trip Booked! Awaiting agent approval`;
+}
+
+function fillOutAllFields() {
+  document.querySelector(
+    ".booking-title"
+  ).innerText = `Please fill out all form fields!`;
 }
 
 function clearTripContainers() {
@@ -128,6 +139,7 @@ export {
   singleTripCostButton,
   bookTripButton,
   successfulTripBooked,
+  fillOutAllFields,
   clearTripContainers,
   addTripToContainer,
   checkAndDisplayEmptyMessage,
