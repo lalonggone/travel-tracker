@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Tracker</title>
+</head>
+<body>
+  <section class="login-page" id="login-page">
+    <section class="invalid-message-container">
+    </section>
+    <div class="login-container">
+      <form class="login-form" id="login-form">
+        <label for="username">Username</label>
+        <input 
+          type="text"
+          name="username"
+          id="username"
+          class="login-input"
+          placeholder="username"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="login-input"
+          placeholder="password"
+        />
+        <button type="submit" class="login-button" id="login-button">Login</button>
+      </form>
+    </div>
+  </section>
+  <div id="header-main-container" class="hidden">
+    <header class="header">
+      <section class="header-container">
+        <h1 class="header-title">TRAVEL TRACKER</h1>
+        <section class="header-right">
+          <h2 class="welcome-title">Welcome, User</h2>
+          <h3 class="total-spent">You've spent $$$</h3>
+        </section>
+      </section>
+    </header>
+    <main>
+      <section id="book-trip-container" class="book-trip-section">
+        <h2 class="booking-title">
+          Plan Your Next Adventure
+        </h2>
+            <form id="book-trip-form" class="form">
+              <div class="booking-sections">
+                <label for="destinationMenu">Select destination:
+                  <select required name="destination-menu" id="destinationMenu">
+                    <option value="0">Select destination</option>
+                  </select>
+                </label>
+              </div>
+              <div class="booking-sections">
+                <label for="startDateMenu">Departure date:
+                  <input required name="start-date-menu" id="startDateMenu" type="date" min="2019-01-01" max="2030-12-31">
+                </label>
+              </div>
+              <div class="booking-sections">
+                <label for="durationInput">Duration of trip:
+                  <input required name="duration-input" id="durationInput" type="number" min="1"
+                    placeholder="number of days">
+                </label>
+              </div>
+              <div class="booking-sections">
+                <label for="travelersInput">Number of travelers:
+                  <input required name="travelers-input" id="travelersInput" type="number" min="1">
+                </label>
+              </div>
+              <div class="booking-btns">
+                <button class="cost-button" id="costBtn" type="button" >Estimate Trip Cost</button>
+                <button class="book-button" id="bookBtn" type="button" >Book Trip</button>
+            </form>
+      </section>
+      <section class="all-trips">
+        <h2>Your Past Trips</h2>
+        <div class="past-trips-container">
+          <!-- insert -->
+        </div>
+        <h2>Your Upcoming Trips</h2>
+        <div class="approved-trips-container">
+          <!-- insert -->
+        </div>
+        <h2>Your Pending Trips</h2>
+        <div class="pending-trips-container">
+          <!-- insert -->
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer></footer>
+  <script src="bundle.js"></script>
+</body>
+</html>

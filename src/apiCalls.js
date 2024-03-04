@@ -21,6 +21,7 @@ function getAllData() {
     })
     .catch((error) => console.error(error));
 }
+
 function postTrip(id, userID, destinationID, numTravelers, date, numDays) {
   const tripData = {
     id: id,

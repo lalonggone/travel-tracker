@@ -3,7 +3,8 @@
 import "./css/styles.scss";
 import { getAllData } from "./apiCalls";
 import {
-  logIn,
+  renderInvalidLogin,
+  renderDashboard,
   updateWelcomeTitle,
   buildBookingSection,
   singleTripCostButton,
@@ -14,10 +15,55 @@ import {
   displayTotalCost,
 } from "./domUpdates";
 
-let currentTraveler;
-let currentTravelerId = 4;
 
 document.addEventListener("DOMContentLoaded", () => {
+  logIn()
+});
+
+function logIn() {
+  const logInButton = document.querySelector('#login-button')
+  
+  logInButton.addEventListener("click", (event) => {
+    event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const travelerId = +username.match(/\d+/)[0];
+      
+      getAllData().then((data) => {
+        let { travelers } = data
+        const currentTraveler = travelers.find(traveler => traveler.id === travelerId)
+        if(currentTraveler && password === 'travel'){
+          travelerDashboardData(currentTraveler)
+          
+        } else {
+          renderInvalidLogin()
+        }
+      })
+    });
+  }
+  
+  function travelerDashboardData(currentTraveler) {
+    const dashboardData = {
+      name: currentTraveler.name
+    }
+    getAllData().then((data) => {
+      const { travelers, trips, destinations } = data
+      const currentTravelerTrips = travelerTrips(currentTraveler.id, trips)
+
+      dashboardData.trips = currentTravelerTrips
+      dashboardData.totalSpent = calculateTotalSpent(currentTravelerTrips, destinations)
+      renderDashboard(dashboardData)
+  }
+)}
+
+function travelerTrips(userID, trips) {
+  travelerTrips = trips.filter(
+    (trip) => trip.userID === userID
+  )
+  return travelerTrips
+}
+
+document.addEventListener("balm", () => {
   getAllData().then((data) => {
     const { travelers, trips, destinations } = data;
     currentTraveler = travelers.find(
@@ -27,9 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateWelcomeTitle(currentTraveler.name);
     clearTripContainers();
 
-    const travelerTrips = trips.filter(
-      (trip) => trip.userID === currentTravelerId
-    );
     const processedTrips = processTrips(travelerTrips, destinations);
     const totalCost = calculateTotalTripCost(travelerTrips, destinations);
 
@@ -54,24 +97,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function processTrips(travelerTrips, destinations) {
-  return travelerTrips.map((trip) => {
-    const destination = destinations.find(
-      (dest) => dest.id === trip.destinationID
-    );
-    return {
-      destination: destination.destination,
-      image: destination.image,
-      alt: destination.alt,
-      travelers: trip.travelers,
-      date: trip.date,
-      duration: trip.duration,
-      status: trip.status,
-    };
-  });
-}
+// function processTrips(travelerTrips, destinations) {
+//   return travelerTrips.map((trip) => {
+//     const destination = destinations.find(
+//       (dest) => dest.id === trip.destinationID
+//     );
+//     return {
+//       destination: destination.destination,
+//       image: destination.image,
+//       alt: destination.alt,
+//       travelers: trip.travelers,
+//       date: trip.date,
+//       duration: trip.duration,
+//       status: trip.status,
+//     };
+//   });
+// }
 
-function calculateTotalTripCost(travelerTrips, destinations) {
+function calculateTotalSpent(travelerTrips, destinations) {
   let totalCost = 0;
 
   travelerTrips.forEach((trip) => {
@@ -89,22 +132,23 @@ function calculateTotalTripCost(travelerTrips, destinations) {
   return totalCost;
 }
 
-function calculateSingleTripCost(
-  destinationID,
-  numTravelers,
-  numDays,
-  destinations
-) {
-  const destination = destinations.find((dest) => dest.id === destinationID);
+// function calculateSingleTripCost(
+//   destinationID,
+//   numTravelers,
+//   numDays,
+//   destinations
+// ) {
+//   const destination = destinations.find((dest) => dest.id === destinationID);
 
-  const tripFlightCost =
-    destination.estimatedFlightCostPerPerson * numTravelers;
-  const tripLodgingCost = destination.estimatedLodgingCostPerDay * numDays;
+//   const tripFlightCost =
+//     destination.estimatedFlightCostPerPerson * numTravelers;
+//   const tripLodgingCost = destination.estimatedLodgingCostPerDay * numDays;
 
-  const costBeforeAgentFee = tripFlightCost + tripLodgingCost;
-  const totalCost = costBeforeAgentFee + costBeforeAgentFee * 0.1;
+//   const costBeforeAgentFee = tripFlightCost + tripLodgingCost;
+//   const totalCost = costBeforeAgentFee + costBeforeAgentFee * 0.1;
 
-  return totalCost;
-}
+//   return totalCost;
+// }
 
-export { calculateSingleTripCost, currentTravelerId };
+// export { calculateSingleTripCost, currentTravelerId };
+export { travelerDashboardData };

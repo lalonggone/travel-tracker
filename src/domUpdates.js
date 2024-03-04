@@ -1,39 +1,61 @@
 // function definitions that update the elusive 'DOM'
 // later called in scrips.js
 
-import { calculateSingleTripCost, currentTravelerId } from "./scripts";
-import { postTrip, nextTripId, getAllData } from "./apiCalls";
+// import { calculateSingleTripCost, currentTravelerId } from "./scripts";
+// import { postTrip, nextTripId, getAllData } from "./apiCalls";
+import { travelerDashboardData } from "./scripts";
 
+const applicationContainer = document.querySelector('.application-container')
 
-function logIn() {
-  const logInButton = document.querySelector('#login-button')
-  
-  logInButton.addEventListener("click", (event) => {
-    event.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const travelerId = +username.match(/\d+/)[0];
-      
-      getAllData().then((data) => {
-        let { travelers } = data
-        const currentTraveler = travelers.find(traveler => traveler.id === travelerId)
-        if(currentTraveler && password === 'travel'){
-          // then change the page view with coresponeding travelers data
-          console.log(currentTraveler)
-        } else {
-          const invalidMessage = document.createElement("section");
-          const invalidMessageContainer = document.querySelector(".invalid-message-container");
-          invalidMessage.classList.add("invalid-message-section");
-          invalidMessage.innerHTML = `
-                <h1>Invalid login<h1>                                                                                                                                                                                                                                                                                                                                                                                                                  
-            `;
-          invalidMessageContainer.appendChild(invalidMessage);
-        }
-      })
-    });
+function renderInvalidLogin() {
+  const invalidLoginSection = document.createElement('section')
+  invalidLoginSection.classList.add('invalid-login-section')
+  invalidLoginSection.innerHTML = `
+        <h1 class="invalid-login-message">Invalid login<h1>                                                                                                                                                                                                                                                                                                                                  
+    `;
+  applicationContainer.appendChild(invalidLoginSection);
+  setTimeout(() => {
+    invalidLoginSection.remove()
+  }, 10000)
 }
 
+function renderDashboard(data) {
+  clearLogin();
+  renderDashboardHeader(data.name, data.totalSpent);
+  renderTrips(data.trips)
+  renderForm();
+}
 
+function renderTrips(trips) {
+  // const organizedTrips = organizeTrips(trips)
+  // sort and render trips by status
+}
+
+function renderForm() {
+  // render the form
+  // upon successful submission, rerender dashboard
+  // else, handle errors
+}
+
+function renderDashboardHeader(username, totalSpent) {
+  const header = document.createElement('header')
+  header.classList.add('dashboard-header')
+  header.innerHTML = `
+    <section class="header-container">
+      <h1 class="header-title">TRAVEL TRACKER</h1>
+      <section class="header-right">
+        <h2 class="welcome-title">Welcome, ${username}</h2>
+        <h3 class="total-spent">You've spent ${totalSpent}</h3>
+      </section>
+    </section>
+  `
+  applicationContainer.appendChild(header);
+}
+
+function clearLogin() {
+  const loginForm = document.querySelector('.login-form');
+  loginForm.remove();
+}
 
 function updateWelcomeTitle(name) {
   const welcomeTitle = document.querySelector(".welcome-title");
@@ -144,7 +166,8 @@ function displayTotalCost(totalCost) {
 }
 
 export {
-  logIn,
+  renderInvalidLogin,
+  renderDashboard,
   updateWelcomeTitle,
   buildBookingSection,
   singleTripCostButton,
