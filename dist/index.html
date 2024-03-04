@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Tracker</title>
 </head>
+
 <body>
   <header class="header">
     <section class="header-container">
@@ -17,19 +19,55 @@
     </section>
   </header>
   <main>
-    <aside class="aside">
-      <p>Hayyy this is an aside</p>
-    </aside>
+    <section id="book-trip-container" class="book-trip-section">
+      <h2 class="booking-title">
+        Plan Your Next Adventure!
+      </h2>
+      <form id="book-trip-form" class="form">
+        <section class="book-trip-section">
+          <form id="book-trip-form" class="form">
+            <section class="booking-sections">
+              <label for="destinationMenu">Select destination:
+                <select required name="destination-menu" id="destinationMenu">
+                  <option value="0">Select destination</option>
+                </select>
+              </label>
+            </section>
+            <section class="booking-sections">
+              <label for="startDateMenu">Departure date:
+                <input required name="start-date-menu" id="startDateMenu" type="date" min="2019-01-01" max="2030-12-31">
+              </label>
+            </section>
+            <section class="booking-sections">
+              <label for="durationInput">Duration of trip:
+                <input required name="duration-input" id="durationInput" type="number" min="1"
+                  placeholder="number of days">
+              </label>
+            </section>
+            <section class="booking-sections">
+              <label for="travelersInput">Number of travelers:
+                <input required name="travelers-input" id="travelersInput" type="number" min="1">
+              </label>
+            </section>
+            <section class="booking-btns">
+              <button class="cost-button" id="costBtn" type="button" name="button">Estimate Trip Cost</button>
+              <button class="book-button" id="bookBtn" type="button" name="button">Book Trip</button>
+            </section>
+          </form>
+        </section>
+
+      </form>
+    </section>
     <section class="all-trips">
       <h2>Your Past Trips</h2>
-        <section class="past-trips-container">
-          <!-- insert -->
-        </section>
-        <h2>Your Upcoming Trips</h2>
-        <section class="approved-trips-container">
-          <!-- insert -->
-        </section>
-        <h2>Your Pending Trips</h2>
+      <section class="past-trips-container">
+        <!-- insert -->
+      </section>
+      <h2>Your Upcoming Trips</h2>
+      <section class="approved-trips-container">
+        <!-- insert -->
+      </section>
+      <h2>Your Pending Trips</h2>
       <section class="pending-trips-container">
         <!-- insert -->
       </section>
@@ -37,4 +75,5 @@
   <footer></footer>
   <script src="bundle.js"></script>
 </body>
+
 </html>

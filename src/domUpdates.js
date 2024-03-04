@@ -1,9 +1,66 @@
 // function definitions that update the elusive 'DOM'
 // later called in scrips.js 
 
+import {
+    calculateSingleTripCost
+} from './scripts'
+
+import {
+    postTrip
+} from './apiCalls'
+
 function updateWelcomeTitle(name) {
     const welcomeTitle = document.querySelector('.welcome-title');
     welcomeTitle.textContent = `Welcome, ${name}`;
+}
+
+function buildBookingSection(destinations) {
+    let menu = document.querySelector("#destinationMenu");
+    destinations.forEach(place => {
+        const optionElement = `<option value="${place.id}">${place.destination}</option>`;
+
+        menu.insertAdjacentHTML('beforeend', optionElement);
+    });
+}
+
+function singleTripCostButton(destinations) {
+    const estimateCostBtn = document.getElementById('costBtn');
+
+    estimateCostBtn.addEventListener('click', () => {
+        const destinationID = +document.getElementById('destinationMenu').value;
+        const numDays = +document.getElementById('durationInput').value; 
+        const numTravelers = +document.getElementById('travelersInput').value;
+
+        // Check if the data is valid before proceeding
+        if (destinationID && numDays > 0 && numTravelers > 0) {
+           const singleTripCost = calculateSingleTripCost(destinationID, numTravelers, numDays, destinations);
+           const container = document.querySelector('#book-trip-container')
+           const costElement = document.createElement('h2')
+           costElement.classList.add('estimated-cost')
+           costElement.textContent = `Estimated Trip Cost: $${singleTripCost.toFixed(2)}`;
+
+           const previousCost = container.querySelector('.estimated-cost');
+           if (previousCost) {
+               container.removeChild(previousCost);
+           }
+
+           container.appendChild(costElement);
+        } else {
+            alert('Please fill in all fields correctly.'); // Simple validation feedback
+        }
+    });
+}
+
+function bookTripButton() {
+    const bookTripButton = document.getElementById('bookBtn');
+
+    bookTripButton.addEventListener('click', () => {
+        const destinationID = +document.getElementById('destinationMenu').value;
+        const numDays = +document.getElementById('durationInput').value; 
+        const numTravelers = +document.getElementById('travelersInput').value;
+
+        postTrip()
+    })
 }
 
 function clearTripContainers() {
@@ -42,6 +99,9 @@ function displayTotalCost(totalCost) {
 
 export { 
     updateWelcomeTitle, 
+    buildBookingSection,
+    singleTripCostButton,
+    bookTripButton,
     clearTripContainers, 
     addTripToContainer, 
     checkAndDisplayEmptyMessage,

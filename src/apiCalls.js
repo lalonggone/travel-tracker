@@ -16,7 +16,33 @@ function getAllData() {
     })
     .catch(error => console.error(error));
 }
+function postTrip(userID, destinationID, numTravelers, date, numDays) {
+    const tripData = {
+        // shorthand prop names!! you don't have to write the key: value if they are the same. 
+        // userID is the same as userID: userID
+        userID,
+        destinationID,
+        numTravelers,
+        date,
+        numDays,
+        status: 'pending',
+        suggestedActivities: []
+    }
+
+    fetch('http://localhost:3001/api/v1/trips', {
+        method: 'POST',
+        body: JSON.stringify(tripData), 
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(err => console.log(err,'error'));
+
+}
 
 export {
-    getAllData
+    getAllData,
+    postTrip
 }
