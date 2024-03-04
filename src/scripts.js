@@ -13,7 +13,7 @@ let currentTraveler;
 
 document.addEventListener('DOMContentLoaded', () => {
     // replace ID with actual login...
-    const currentTravelerId = 45;
+    const currentTravelerId = 4;
 
     getAllData().then(data => {
         const { travelers, trips, destinations } = data;
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const travelerTrips = trips.filter(trip => trip.userID === currentTravelerId);
         const processedTrips = processTrips(travelerTrips, destinations);
+        console.log(processedTrips)
         const totalCost = calculateTotalTripCost(travelerTrips, destinations);
         
         processedTrips.forEach(processedTrip => {
@@ -63,9 +64,13 @@ function calculateTotalTripCost(travelerTrips, destinations) {
 
     travelerTrips.forEach(trip => {
         const destination = destinations.find(dest => dest.id === trip.destinationID);
-
+        console.log("DESTINATION", destination)
             const tripFlightCost = destination.estimatedFlightCostPerPerson * trip.travelers;
             const tripLodgingCost = destination.estimatedLodgingCostPerDay * trip.duration;
+            console.log("destination flight", destination.estimatedFlightCostPerPerson);
+            console.log("destination lodging", destination.estimatedLodgingCostPerDay);
+            console.log("trip travelers", trip.travelers);
+            console.log("trip duration", trip.duration);
             // console.log(tripFlightCost, tripLodgingCost);
 
             totalCost += tripFlightCost + tripLodgingCost;

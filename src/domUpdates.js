@@ -21,8 +21,7 @@ function addTripToContainer(trip, containerClass) {
         <img class="card-image" src="${trip.image}" alt="${trip.alt}">
         <p class="card-travelers">${trip.travelers} travelers</p>
         <p class="card-date">${trip.date}</p>
-        <p class="card-duration">${trip.duration} days</p>
-        <p class="card-status">${trip.status}</p>
+        <p class="card-duration">${trip.duration} days</p>                                                                                                                                                                                                                                                                                                                                                                                                                  
     `;
     container.appendChild(tripArticle);
 }
