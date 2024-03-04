@@ -2,26 +2,38 @@
 // later called in scrips.js
 
 import { calculateSingleTripCost, currentTravelerId } from "./scripts";
-import { postTrip, nextTripId } from "./apiCalls";
+import { postTrip, nextTripId, getAllData } from "./apiCalls";
+
 
 function logIn() {
-  const logInButton = document.querySelector('#loginBtn')
-
-  logInButton.addEventListener("click", () => {
-    console.log("inputStuff")
-  })
-
-  // get user input values username n password
-
-  // turn the username into a single number.. ??
-  // if that number matches any traveler.id then return that traveler
-  // if it doesn't match any then return 'invalid'
-
-  // if password === 'travel' AND all of the above is gtg, then change the page view
-
-  // unhide the 
-
+  const logInButton = document.querySelector('#login-button')
+  
+  logInButton.addEventListener("click", (event) => {
+    event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const travelerId = +username.match(/\d+/)[0];
+      
+      getAllData().then((data) => {
+        let { travelers } = data
+        const currentTraveler = travelers.find(traveler => traveler.id === travelerId)
+        if(currentTraveler && password === 'travel'){
+          // then change the page view with coresponeding travelers data
+          console.log(currentTraveler)
+        } else {
+          const invalidMessage = document.createElement("section");
+          const invalidMessageContainer = document.querySelector(".invalid-message-container");
+          invalidMessage.classList.add("invalid-message-section");
+          invalidMessage.innerHTML = `
+                <h1>Invalid login<h1>                                                                                                                                                                                                                                                                                                                                                                                                                  
+            `;
+          invalidMessageContainer.appendChild(invalidMessage);
+        }
+      })
+    });
 }
+
+
 
 function updateWelcomeTitle(name) {
   const welcomeTitle = document.querySelector(".welcome-title");
@@ -41,7 +53,6 @@ function singleTripCostButton(destinations) {
   const estimateCostBtn = document.getElementById("costBtn");
 
   estimateCostBtn.addEventListener("click", () => {
-    console.log(currentTravelerId);
     const destinationID = +document.getElementById("destinationMenu").value;
     const numDays = +document.getElementById("durationInput").value;
     const numTravelers = +document.getElementById("travelersInput").value;

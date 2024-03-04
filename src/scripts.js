@@ -15,10 +15,9 @@ import {
 } from "./domUpdates";
 
 let currentTraveler;
-const currentTravelerId = 4;
+let currentTravelerId = 4;
 
 document.addEventListener("DOMContentLoaded", () => {
-  
   getAllData().then((data) => {
     const { travelers, trips, destinations } = data;
     currentTraveler = travelers.find(
