@@ -1,0 +1,18 @@
+@mixin vertically-center() {
+    display: flex;
+    justify-content: center;
+}
+
+@mixin main-font() {
+    font-family: $main-font;
+    color: $main-text-color;
+    letter-spacing: 7px;
+    font-weight: 200;
+}
+@mixin seccondary-font() {
+    font-family: $secondary-font;
+    color: $secondary-text-color;
+    letter-spacing: 1px;
+    font-weight: 100;
+}
+

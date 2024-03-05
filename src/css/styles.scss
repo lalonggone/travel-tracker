@@ -1,47 +1,38 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:100,200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import "config";
+@import "utilities";
+@import "buttons";
 
-$main-font: "Raleway", serif;
-$background-color: #333;
-$main-text-color: #e3e3e3;
-$button-color: #536270;
-$button-hover-color: darken($button-color, 10%);
-$input-background-color: #555;
-$input-border-color: #777;
-$error-color: #ff3860;
-@mixin vertically-center() {
-  
-}
-
-html, body {
-  overflow: hidden;
+html,
+body {
+  @include vertically-center();
   position: absolute;
   height: 100%;
   width: 100%;
   left: 0;
-  top: 0;
-
   background-color: #3c4854;
-  display: flex;
-  justify-content: center;
 
   .application-container {
     width: 100%;
+
+    img {
+      width: 50%;
+    }
 
     .login-title {
       text-align: center;
     }
 
     .login-form {
-      font-family: $main-font;
-      color: $main-text-color;
+      @include main-font();
+      @include vertically-center();
       letter-spacing: 7px;
       width: 250px;
       background-color: $background-color;
       padding: 20px;
       border-radius: 5px;
       margin: 90px auto;
-      display: flex;
       flex-direction: column;
       gap: 20px;
 
@@ -87,28 +78,38 @@ html, body {
     }
 
     header {
-      display:flex;
+      display: flex;
       flex-direction: column;
 
       h1 {
-        font-family: $main-font;
-        color: $main-text-color;
-        font-weight: 300;
-        letter-spacing: 4px;
+        @include main-font;
         margin: 80px 200px 30px;
         text-align: center;
-        padding:30px;
-        border: 1px solid $main-text-color;
+        padding: 30px;
+        border: 0.7px solid $main-text-color;
         border-radius: 6px;
       }
 
-      h2, h3 {
-        font-family: $main-font;
-        color: $main-text-color;
-        font-weight: 300;
-        letter-spacing: 4px;
+      h2,
+      h3 {
+        @include main-font;
+        letter-spacing: 3px;
         text-align: center;
       }
+
+      .total-spent {
+        margin-bottom: 300px;
+      }
+    }
+
+    .book-trip-section {
+      @include main-font;
+      display: flex;
+
+    }
+    .book-trip-form {
+      @include vertically-center()
+      
     }
   }
 }
