@@ -1,5 +1,3 @@
-// this is where the magic happens :)
-
 import "./css/styles.scss";
 import { getAllData } from "./apiCalls";
 import {
@@ -33,12 +31,11 @@ function logIn() {
         const currentTraveler = travelers.find(traveler => traveler.id === travelerId)
         if(currentTraveler && password === 'travel'){
           travelerDashboardData(currentTraveler)
-          
         } else {
           renderInvalidLogin()
         }
       })
-    });
+    })
   }
   
   function travelerDashboardData(currentTraveler) {
