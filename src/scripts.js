@@ -99,7 +99,6 @@ document.addEventListener("balm", () => {
 
 function processTrips(travelerTrips, destinations) {
   return travelerTrips.map((trip) => {
-    console.log(destinations);
     const destination = destinations.find(
       (dest) => dest.id === trip.destinationID
     );

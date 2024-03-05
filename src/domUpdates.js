@@ -5,69 +5,112 @@
 // import { postTrip, nextTripId, getAllData } from "./apiCalls";
 import { travelerDashboardData, processTrips } from "./scripts";
 
-const applicationContainer = document.querySelector('.application-container')
+const applicationContainer = document.querySelector(".application-container");
 
 function renderInvalidLogin() {
-  const invalidLoginSection = document.createElement('section')
-  invalidLoginSection.classList.add('invalid-login-section')
+  const invalidLoginSection = document.createElement("section");
+  invalidLoginSection.classList.add("invalid-login-section");
   invalidLoginSection.innerHTML = `
         <h1 class="invalid-login-message">Invalid login<h1>                                                                                                                                                                                                                                                                                                                                  
     `;
   applicationContainer.appendChild(invalidLoginSection);
   setTimeout(() => {
-    invalidLoginSection.remove()
-  }, 10000)
+    invalidLoginSection.remove();
+  }, 10000);
 }
 
 function renderDashboard(data) {
   clearLogin();
   renderDashboardHeader(data.name, data.totalSpent);
-  const organizedTrips = organizeTrips(processTrips(data.trips, data.destinations))
-  console.log(data.destinations);
-  renderTrips(organizedTrips)
-  organizeTrips(data.trips);
+  setupTripSections();
+
+  const organizedTrips = organizeTrips(
+    processTrips(data.trips, data.destinations)
+  );
+  renderTrips(organizedTrips);
   renderForm();
 }
 
 function renderTrips(organizedTrips) {
-  addTripsToContainer(organizedTrips.approved, 'approved-trips-container')
-  addTripsToContainer(organizedTrips.pending, 'pending-trips-container')
-  addTripsToContainer(organizedTrips.past, 'past-trips-container')
+  addTripsToContainer(organizedTrips.approved, "approved-trips-container");
+  addTripsToContainer(organizedTrips.pending, "pending-trips-container");
+  addTripsToContainer(organizedTrips.past, "past-trips-container");
+}
+
+function setupTripSections() {
+  // applicationContainer.innerHTML = '';
+
+  applicationContainer.appendChild(
+    createTripSection("Your Past Trips", "past-trips-container")
+  );
+  applicationContainer.appendChild(
+    createTripSection("Your Upcoming Trips", "approved-trips-container")
+  );
+  applicationContainer.appendChild(
+    createTripSection("Your Pending Trips", "pending-trips-container")
+  );
 }
 
 function addTripsToContainer(trips, containerClass) {
-   trips.forEach(trip => {
-        const tripArticle = document.createElement("article");
-        tripArticle.classList.add("card");
-        tripArticle.innerHTML = `
-            <h3 class="card-destination">${trip.destination}</h3>
-            <img class="card-image" src="${trip.image}" alt="${trip.alt}">
-            <p class="card-travelers">${trip.travelers} travelers</p>
-            <p class="card-date">${trip.date}</p>
-            <p class="card-duration">${trip.duration} days</p>
-        `;
-        applicationContainer.appendChild(tripArticle);
-     })
+  const container = document.querySelector("." + containerClass);
+
+  container.innerHTML = "";
+
+  if (trips.length === 0){
+    const noTripsMessage = document.createElement("p");
+    noTripsMessage.classList.add("no-trips-message");
+
+    const tripType = containerClass.split('-')[0];
+    console.log(tripType);
+    noTripsMessage.textContent = `You have no ${tripType} trips.`
+    container.appendChild(noTripsMessage)
+  } else {
+  trips.forEach((trip) => {
+    const tripArticle = document.createElement("article");
+    tripArticle.classList.add("card");
+    tripArticle.innerHTML = `
+          <h3 class="card-destination">${trip.destination}</h3>
+          <img class="card-image" src="${trip.image}" alt="${trip.alt}">
+          <p class="card-travelers">${trip.travelers} travelers</p>
+          <p class="card-date">${trip.date}</p>
+          <p class="card-duration">${trip.duration} days</p>
+      `;
+    container.appendChild(tripArticle);
+  });
+}
+}
+
+function createTripSection(title, containerClass) {
+  const sectionElement = document.createElement("section");
+  const header = document.createElement("h2");
+  header.textContent = title;
+  const containerDiv = document.createElement("div");
+  containerDiv.className = containerClass;
+
+  sectionElement.appendChild(header);
+  sectionElement.appendChild(containerDiv);
+
+  return sectionElement;
 }
 
 function organizeTrips(trips) {
   const organizedTrips = {
-    'approved': [],
-    'pending': [],
-    'past': [],
-  }
+    approved: [],
+    pending: [],
+    past: [],
+  };
 
   trips.forEach((trip) => {
     if (trip.status === "approved") {
-      organizedTrips[trip.status].push(trip)
+      organizedTrips[trip.status].push(trip);
     } else if (trip.status === "pending") {
-      organizedTrips[trip.status].push(trip)
+      organizedTrips[trip.status].push(trip);
     } else {
-      organizedTrips['past'].push(trip)
+      organizedTrips["past"].push(trip);
     }
-  })
+  });
 
-return organizedTrips
+  return organizedTrips;
 }
 
 function renderForm() {
@@ -77,8 +120,8 @@ function renderForm() {
 }
 
 function renderDashboardHeader(username, totalSpent) {
-  const header = document.createElement('header')
-  header.classList.add('dashboard-header')
+  const header = document.createElement("header");
+  header.classList.add("dashboard-header");
   header.innerHTML = `
     <section class="header-container">
       <h1 class="header-title">TRAVEL TRACKER</h1>
@@ -87,12 +130,12 @@ function renderDashboardHeader(username, totalSpent) {
         <h3 class="total-spent">You've spent ${totalSpent}</h3>
       </section>
     </section>
-  `
+  `;
   applicationContainer.appendChild(header);
 }
 
 function clearLogin() {
-  const loginForm = document.querySelector('.login-form');
+  const loginForm = document.querySelector(".login-form");
   loginForm.remove();
 }
 
@@ -136,7 +179,7 @@ function singleTripCostButton(destinations) {
       }
       container.appendChild(costElement);
     } else {
-      fillOutAllFields()
+      fillOutAllFields();
     }
   });
 }
@@ -175,8 +218,6 @@ function clearTripContainers() {
   document.querySelector(".approved-trips-container").innerHTML = "";
   document.querySelector(".pending-trips-container").innerHTML = "";
 }
-
-
 
 function checkAndDisplayEmptyMessage(containerClass, tripType) {
   const container = document.querySelector(containerClass);
