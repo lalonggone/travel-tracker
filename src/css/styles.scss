@@ -1,12 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:100,200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
 @import "config";
 @import "utilities";
 @import "buttons";
 
 html,
 body {
-  @include vertically-center();
+  @include center();
   position: absolute;
   height: 100%;
   width: 100%;
@@ -21,59 +22,28 @@ body {
     }
 
     .login-title {
+      font-size: 120%;
       text-align: center;
     }
 
     .login-form {
       @include main-font();
-      @include vertically-center();
-      letter-spacing: 7px;
+      @include center();
+      @include container-dark();
       width: 250px;
-      background-color: $background-color;
-      padding: 20px;
-      border-radius: 5px;
-      margin: 90px auto;
       flex-direction: column;
-      gap: 20px;
-
-      label {
-        color: $main-text-color;
-        margin-bottom: 5px;
-      }
 
       .login-input {
-        background-color: $input-background-color;
-        border: 1px solid $input-border-color;
-        border-radius: 4px;
-        color: $main-text-color;
-        letter-spacing: 2px;
-        padding: 11px;
-        outline: none;
-
-        &:focus {
-          border-color: lighten($input-border-color, 20%);
-        }
+        @include inputs();
       }
 
-      .login-button {
-        font-family: $main-font;
-        background-color: $button-color;
-        border: none;
-        border-radius: 4px;
-        color: $main-text-color;
-        padding: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        letter-spacing: 3px;
+      .invalid-login-section {
+        @include center;
+        height: 17px;
 
-        &:hover {
-          background-color: $button-hover-color;
+        .invalid-login-message {
+          @include error-message();
         }
-      }
-
-      .error-message {
-        color: $error-color;
-        margin-top: -10px;
       }
     }
 
@@ -83,17 +53,12 @@ body {
 
       h1 {
         @include main-font;
-        margin: 80px 200px 30px;
-        text-align: center;
-        padding: 30px;
-        border: 0.7px solid $main-text-color;
-        border-radius: 6px;
+        @include container-dark;
       }
 
       h2,
       h3 {
-        @include main-font;
-        letter-spacing: 3px;
+        @include secondary-font;
         text-align: center;
       }
 
@@ -103,12 +68,32 @@ body {
     }
 
     .book-trip-section {
-      @include main-font;
-      display: flex;
-
+      @include secondary-font;
+      @include center();
+      flex-direction: column;
+      align-items: center;
+      
+      h2 {
+        @include main-font;
+      }
     }
-    .book-trip-form {
-      @include vertically-center()
+    
+    .form {
+      @include center();
+      @include container-dark();
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      
+      .booking-sections {
+        // would be nice to get the booking form looking 
+        // label {
+        //   text-align: center;
+      }
+
+      .input {
+        @include inputs()
+      }
       
     }
   }

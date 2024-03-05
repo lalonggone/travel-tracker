@@ -24,7 +24,9 @@ function logIn() {
     event.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-      const travelerId = +username.match(/\d+/)[0];
+
+      const usernameDigits = username.match(/\d+/);
+      const travelerId = usernameDigits ? +usernameDigits[0] : null
       
       getAllData().then((data) => {
         let { travelers } = data
