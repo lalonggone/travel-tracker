@@ -7,34 +7,27 @@
   <title>Travel Tracker</title>
 </head>
 <body>
-  <header class="header">
-    <section class="header-container">
-      <h1 class="header-title">TRAVEL TRACKER</h1>
-      <section class="header-right">
-        <h2 class="welcome-title">Welcome, User</h2>
-        <h3 class="total-spent">You've spent $$$</h2>
-      </section>
-    </section>
-  </header>
-  <main>
-    <!-- <aside class="aside">
-      <p>Hayyy this is an aside</p>
-    </aside> -->
-    <section class="all-trips">
-      <h2>Your Past Trips</h2>
-        <section class="past-trips-container">
-          <!-- insert -->
-        </section>
-        <h2>Your Upcoming Trips</h2>
-        <section class="approved-trips-container">
-          <!-- insert -->
-        </section>
-        <h2>Your Pending Trips</h2>
-      <section class="pending-trips-container">
-        <!-- insert -->
-      </section>
-  </main>
-  <footer></footer>
+  <div class="application-container">
+    <form class="login-form" id="login-form">
+      <label for="username">Username</label>
+      <input 
+        type="text"
+        name="username"
+        id="username"
+        class="login-input"
+        placeholder="username"
+      />
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        class="login-input"
+        placeholder="password"
+      />
+      <button type="submit" class="login-button" id="login-button">Login</button>
+    </form>
+  </div>
   <script src="bundle.js"></script>
 </body>
 </html>
