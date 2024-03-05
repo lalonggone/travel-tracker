@@ -10,7 +10,6 @@ import {
   singleTripCostButton,
   bookTripButton,
   clearTripContainers,
-  addTripToContainer,
   checkAndDisplayEmptyMessage,
   displayTotalCost,
 } from "./domUpdates";
@@ -50,6 +49,7 @@ function logIn() {
       const { travelers, trips, destinations } = data
       const currentTravelerTrips = travelerTrips(currentTraveler.id, trips)
 
+      dashboardData.destinations = destinations
       dashboardData.trips = currentTravelerTrips
       dashboardData.totalSpent = calculateTotalSpent(currentTravelerTrips, destinations)
       renderDashboard(dashboardData)
@@ -97,22 +97,23 @@ document.addEventListener("balm", () => {
   });
 });
 
-// function processTrips(travelerTrips, destinations) {
-//   return travelerTrips.map((trip) => {
-//     const destination = destinations.find(
-//       (dest) => dest.id === trip.destinationID
-//     );
-//     return {
-//       destination: destination.destination,
-//       image: destination.image,
-//       alt: destination.alt,
-//       travelers: trip.travelers,
-//       date: trip.date,
-//       duration: trip.duration,
-//       status: trip.status,
-//     };
-//   });
-// }
+function processTrips(travelerTrips, destinations) {
+  return travelerTrips.map((trip) => {
+    console.log(destinations);
+    const destination = destinations.find(
+      (dest) => dest.id === trip.destinationID
+    );
+    return {
+      destination: destination.destination,
+      image: destination.image,
+      alt: destination.alt,
+      travelers: trip.travelers,
+      date: trip.date,
+      duration: trip.duration,
+      status: trip.status,
+    };
+  });
+}
 
 function calculateTotalSpent(travelerTrips, destinations) {
   let totalCost = 0;
@@ -151,4 +152,4 @@ function calculateTotalSpent(travelerTrips, destinations) {
 // }
 
 // export { calculateSingleTripCost, currentTravelerId };
-export { travelerDashboardData };
+export { travelerDashboardData, processTrips };
