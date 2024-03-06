@@ -21,8 +21,6 @@ function calculateTotalTripCost(travelerTrips, destinations) {
 
             const tripFlightCost = destination.estimatedFlightCostPerPerson * trip.travelers;
             const tripLodgingCost = destination.estimatedLodgingCostPerDay * trip.duration;
-            // console.log(tripFlightCost, tripLodgingCost);
-
             totalCost += tripFlightCost + tripLodgingCost;
     });
 

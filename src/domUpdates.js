@@ -1,35 +1,34 @@
- import { travelerDashboardData, processTrips } from "./scripts";
+import { calculateSingleTripCost, processTrips } from "./scripts";
+import { postTrip, nextTripId } from "./apiCalls";
 
 const applicationContainer = document.querySelector(".application-container");
 
 function renderInvalidLogin() {
   const invalidLoginSection = document.querySelector(".invalid-login-section");
-  invalidLoginSection.innerHTML = `<p class="invalid-login-message">invalid login</p>`
+  invalidLoginSection.innerHTML = `<p class="invalid-login-message">invalid login</p>`;
 
   setTimeout(() => {
-    invalidLoginSection.remove();
-  }, 1000000);
+    invalidLoginSection.innerHTML = "";
+  }, 3000);
 }
 
 function renderDashboard(data) {
   clearLogin();
   renderDashboardHeader(data.name, data.totalSpent);
-  renderBookingForm(data.destinations);
+  renderBookingForm(data);
   setupTripSections();
-  renderTripsToSections(data)
-  
-  
-  }
+  renderTripsToSections(data);
+}
 
-  function clearLogin() {
-    const loginForm = document.querySelector(".login-form");
-    loginForm.remove();
-  }
-  
-  function renderDashboardHeader(username, totalSpent) {
-    const header = document.createElement("header");
-    header.classList.add("dashboard-header");
-    header.innerHTML = `
+function clearLogin() {
+  const loginForm = document.querySelector(".login-form");
+  loginForm.remove();
+}
+
+function renderDashboardHeader(username, totalSpent) {
+  const header = document.createElement("header");
+  header.classList.add("dashboard-header");
+  header.innerHTML = `
         <h1 class="header-title">TRAVEL TRACKER</h1>
         <section class="header-right">
           <h2 class="welcome-title">${username}'s personal</h2>
@@ -37,14 +36,14 @@ function renderDashboard(data) {
         </section>
         <div class="blur-overlay"></div>
     `;
-    applicationContainer.appendChild(header);
-  }
+  applicationContainer.appendChild(header);
+}
 
-  function renderBookingForm(data) {
-    const bookingSection = document.createElement('section');
-    bookingSection.id = 'book-trip-container';
-    bookingSection.className = 'book-trip-section';
-    bookingSection.innerHTML = `
+function renderBookingForm(data) {
+  const bookingSection = document.createElement("section");
+  bookingSection.id = "book-trip-container";
+  bookingSection.className = "book-trip-section";
+  bookingSection.innerHTML = `
         <h2 class="booking-title">PLAN YOUR NEXT ADVENTURE</h2>
         <form id="book-trip-form" class="form">
             <div class="booking-sections">
@@ -65,8 +64,8 @@ function renderDashboard(data) {
                 </label>
             </div>
             <div class="booking-sections">
-                <label for="travelersInput">Number of travelers:
-                    <input required class="input" name="travelers-input" id="travelersInput" type="number" min="1" placeholder="travlers">
+                <label for="numTravelersInput">Number of travelers:
+                    <input required class="input" name="travelers-input" id="numTravelersInput" type="number" min="1" placeholder="travlers">
                 </label>
             </div>
             <div class="booking-btns">
@@ -75,58 +74,58 @@ function renderDashboard(data) {
             </div>
         </form>
     `;
-    applicationContainer.appendChild(bookingSection);
-  
-    populateDestinationOptions(data);
-    setupFormEventListeners();
-  }
+  applicationContainer.appendChild(bookingSection);
 
-  function setupTripSections() {
-    applicationContainer.appendChild(
-      createTripSection("YOUR PAST TRIPS", "past-trips-container")
-    );
-    applicationContainer.appendChild(
-      createTripSection("YOUR UPCOMING TRIPS", "approved-trips-container")
-    );
-    applicationContainer.appendChild(
-      createTripSection("YOUR PENDING TRIPS", "pending-trips-container")
-    );
-  }
+  populateDestinationOptions(data.destinations);
+  setupFormEventListeners(data);
+}
 
-  function renderTripsToSections(data) {
-    const organizedTrips = organizeTrips(
-      processTrips(data.trips, data.destinations)
-      );
+function setupTripSections() {
+  applicationContainer.appendChild(
+    createTripSection("YOUR UPCOMING TRIPS", "approved-trips-container")
+  );
+  applicationContainer.appendChild(
+    createTripSection("YOUR PENDING TRIPS", "pending-trips-container")
+  );
+}
 
-      renderTrips(organizedTrips);
-  }
-  
-  function renderTrips(organizedTrips) {
-    addTripsToContainer(organizedTrips.approved, "approved-trips-container");
-    addTripsToContainer(organizedTrips.pending, "pending-trips-container");
-    addTripsToContainer(organizedTrips.past, "past-trips-container");
-  }
+function renderTripsToSections(data) {
+  const organizedTrips = organizeTrips(
+    processTrips(data.trips, data.destinations)
+  );
 
+  renderTrips(organizedTrips);
+}
 
+function renderTrips(organizedTrips) {
+  addTripsToContainer(organizedTrips.approved, "approved-trips-container");
+  addTripsToContainer(organizedTrips.pending, "pending-trips-container");
+}
 
 function populateDestinationOptions(data) {
-  const destinations = data
-  
-  const destinationMenu = document.getElementById('destinationMenu');
-  destinations.forEach(destination => {
-      const option = document.createElement('option');
-      option.value = destination.id;
-      option.textContent = destination.name;
-      destinationMenu.appendChild(option);
+  const destinations = data;
+
+  const destinationMenu = document.getElementById("destinationMenu");
+  destinations.forEach((destination) => {
+    const option = document.createElement("option");
+    option.value = destination.id;
+    if (destination.destination.length > 20) {
+      const parts = destination.destination.split(", ");
+      option.textContent =
+        parts.length > 1 ? parts[parts.length - 1] : destination.destination;
+    } else {
+      option.textContent = destination.destination;
+    }
+    destinationMenu.appendChild(option);
   });
 }
 
-function setupFormEventListeners() {
-  const costBtn = document.getElementById('costBtn');
-  const bookBtn = document.getElementById('bookBtn');
+function setupFormEventListeners(data) {
+  const costBtn = document.getElementById("costBtn");
+  const bookBtn = document.getElementById("bookBtn");
 
-  // costBtn.addEventListener('click', estimateTripCost);
-  // bookBtn.addEventListener('click', bookTrip); 
+  costBtn.addEventListener("click", () => singleTripCostButton(data.destinations));
+  bookBtn.addEventListener("click", () => bookTripButton(data));
 }
 
 function addTripsToContainer(trips, containerClass) {
@@ -134,36 +133,35 @@ function addTripsToContainer(trips, containerClass) {
 
   container.innerHTML = "";
 
-  if (trips.length === 0){
+  if (trips.length === 0) {
     const noTripsMessage = document.createElement("p");
     noTripsMessage.classList.add("no-trips-message");
 
-    const tripType = containerClass.split('-')[0];
-    console.log(tripType);
-    noTripsMessage.textContent = `You have no ${tripType} trips.`
-    container.appendChild(noTripsMessage)
+    const tripType = containerClass.split("-")[0];
+    noTripsMessage.textContent = `You have no ${tripType} trips.`;
+    container.appendChild(noTripsMessage);
   } else {
-  trips.forEach((trip) => {
-    const tripArticle = document.createElement("article");
-    tripArticle.classList.add("card");
-    tripArticle.innerHTML = `
+    trips.forEach((trip) => {
+      const tripArticle = document.createElement("article");
+      tripArticle.classList.add("card");
+      tripArticle.innerHTML = `
           <h3 class="card-destination">${trip.destination}</h3>
           <img class="card-image" src="${trip.image}" alt="${trip.alt}">
           <p class="card-travelers">${trip.travelers} travelers</p>
           <p class="card-date">${trip.date}</p>
           <p class="card-duration">${trip.duration} days</p>
       `;
-    container.appendChild(tripArticle);
-  });
-}
+      container.appendChild(tripArticle);
+    });
+  }
 }
 
 function createTripSection(title, containerClass) {
   const sectionElement = document.createElement("section");
-  sectionElement.className = "trip-section"
-  
+  sectionElement.className = "trip-section";
+
   const header = document.createElement("h2");
-  header.className = "trip-header"
+  header.className = "trip-header";
   header.textContent = title;
 
   const containerDiv = document.createElement("div");
@@ -179,7 +177,6 @@ function organizeTrips(trips) {
   const organizedTrips = {
     approved: [],
     pending: [],
-    past: [],
   };
 
   trips.forEach((trip) => {
@@ -187,16 +184,11 @@ function organizeTrips(trips) {
       organizedTrips[trip.status].push(trip);
     } else if (trip.status === "pending") {
       organizedTrips[trip.status].push(trip);
-    } else {
-      organizedTrips["past"].push(trip);
     }
   });
 
   return organizedTrips;
 }
-
-
-
 
 function updateWelcomeTitle(name) {
   const welcomeTitle = document.querySelector(".welcome-title");
@@ -212,13 +204,17 @@ function buildBookingSection(destinations) {
   });
 }
 
-function singleTripCostButton(destinations) {
-  const estimateCostBtn = document.getElementById("costBtn");
+function getBookingInputs() {
+  const destinationID = +document.getElementById("destinationMenu").value;
+  const numDays = +document.getElementById("durationInput").value;
+  const numTravelers = +document.getElementById("numTravelersInput").value;
 
-  estimateCostBtn.addEventListener("click", () => {
-    const destinationID = +document.getElementById("destinationMenu").value;
-    const numDays = +document.getElementById("durationInput").value;
-    const numTravelers = +document.getElementById("travelersInput").value;
+  return [destinationID, numDays, numTravelers];
+}
+
+function singleTripCostButton(destinations) {
+// DESTRUCTURING.. this is how to use the return val in HERE from the helper funtion out THERE
+  const [destinationID, numDays, numTravelers] = getBookingInputs();
 
     if (destinationID && numDays > 0 && numTravelers > 0) {
       const singleTripCost = calculateSingleTripCost(
@@ -227,42 +223,54 @@ function singleTripCostButton(destinations) {
         numDays,
         destinations
       );
-      const container = document.querySelector("#book-trip-container");
-      const costElement = document.createElement("h2");
-      costElement.classList.add("estimated-cost");
-      costElement.textContent = `Estimated Trip Cost: $${singleTripCost}`;
-
-      const previousCost = container.querySelector(".estimated-cost");
-      if (previousCost) {
-        container.removeChild(previousCost);
-      }
-      container.appendChild(costElement);
+      displayTripCost(singleTripCost);
     } else {
       fillOutAllFields();
     }
-  });
 }
 
-function bookTripButton() {
-  const bookTripButton = document.getElementById("bookBtn");
+function displayTripCost(cost) {
+  const container = document.querySelector("#book-trip-container");
+  const costElement = document.createElement("h2");
+  costElement.classList.add("estimated-cost");
+  costElement.textContent = `Estimated Trip Cost: $${cost.toFixed(2)}`;
 
-  bookTripButton.addEventListener("click", () => {
-    const tripId = nextTripId;
-    const travelerId = currentTravelerId;
-    const destinationID = +document.getElementById("destinationMenu").value;
-    const numTravelers = +document.getElementById("travelersInput").value;
-    const date = document
-      .getElementById("startDateMenu")
-      .value.replace(/-/g, "/");
-    const numDays = +document.getElementById("durationInput").value;
+  const previousCost = container.querySelector(".estimated-cost");
+  if (previousCost) {
+    container.removeChild(previousCost);
+  }
+  container.appendChild(costElement);
+}
 
-    postTrip(tripId, travelerId, destinationID, numTravelers, date, numDays);
-  });
+function bookTripButton(data) {
+  const [destinationID, numDays, numTravelers] = getBookingInputs();
+
+    if (destinationID && numDays > 0 && numTravelers > 0) {
+      processPostTripData(data);
+      successfulTripBooked()
+    } else {
+      fillOutAllFields();
+    }
+}
+
+function processPostTripData(data) {
+  const tripData = {
+    id: nextTripId,
+    userID: data.travelerId,
+    destinationID: +document.getElementById("destinationMenu").value,
+    travelers: +document.getElementById("numTravelersInput").value,
+    date: document.getElementById("startDateMenu").value.replace(/-/g, "/"),
+    duration: +document.getElementById("durationInput").value,
+    status: "pending",
+    suggestedActivities: [],
+  };
+  postTrip(tripData)
 }
 
 function successfulTripBooked() {
   document.querySelector(
-    ".booking-title").innerText = `Trip Booked! Awaiting agent approval`;
+    ".booking-title"
+  ).innerText = `Trip Booked! Awaiting agent approval`;
 }
 
 function fillOutAllFields() {
@@ -272,7 +280,6 @@ function fillOutAllFields() {
 }
 
 function clearTripContainers() {
-  document.querySelector(".past-trips-container").innerHTML = "";
   document.querySelector(".approved-trips-container").innerHTML = "";
   document.querySelector(".pending-trips-container").innerHTML = "";
 }

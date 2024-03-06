@@ -30,8 +30,6 @@ describe('Travel Tracker Functions', function() {
     ]
 
       travelerTrips = sampleTrips.filter(trip => trip.userID === currentTravelerId);
-      console.log(travelerTrips);
-      console.log(sampleDestinations);
       
       processedTrips = processTrips(travelerTrips, sampleDestinations);
       totalCost = calculateTotalTripCost(travelerTrips, sampleDestinations);
