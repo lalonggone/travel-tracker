@@ -14,7 +14,7 @@ body {
   width: 100%;
   left: 0;
   background: $dark-text-color;
-  
+  margin-bottom: 100px;
 
   .application-container {
     width: 100%;
@@ -22,7 +22,8 @@ body {
     flex-direction: column;
 
     .login-title {
-      font-size: 120%;
+      font-size: 150%;
+      font-weight: 300;
       text-align: center;
     }
 
@@ -53,11 +54,12 @@ body {
       display: flex;
       align-items: center;
       flex-direction: column;
-      background-image: url('https://images.pexels.com/photos/9754/mountains-clouds-forest-fog.jpg');
+      background-image: url("https://images.pexels.com/photos/9754/mountains-clouds-forest-fog.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center top;
       position: relative;
+      padding-top: 28px;
 
       .blur-overlay {
         position: absolute;
@@ -65,22 +67,29 @@ body {
         right: 0;
         bottom: -40px;
         height: 10%;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, $dark-text-color 100%);
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0) 0%,
+          $dark-text-color 100%
+        );
         backdrop-filter: blur(4px);
-    }
+      }
 
       h1 {
         @include main-font;
         @include container-dark;
+        padding: 18px;
         margin: 80px auto;
         margin-bottom: 0px;
         text-align: center;
         max-width: 500px;
       }
-      
-      h2, h3 {
+
+      h2,
+      h3 {
         @include secondary-font;
-        color: $dark-text-color;
+        font-weight: 400;
+        color: black;
         text-align: center;
         margin-top: 20px;
       }
@@ -99,16 +108,20 @@ body {
       }
     }
 
-
     .book-trip-section {
       @include secondary-font;
       @include center();
-      margin-top: 80px;
       flex-direction: column;
       align-items: center;
+      margin-bottom: 150px;
 
-      h2 {
-        @include main-font;
+      .booking-title {
+        @include secondary-font;
+        margin-top: 180px;
+      }
+
+      h2{
+        @include secondary-font
       }
     }
 
@@ -122,12 +135,17 @@ body {
       .input {
         @include inputs();
       }
+
+      h2{
+        
+
+      }
     }
 
     .trip-section {
       @include center();
       @include center-align-column();
-      margin: 4% 10%;
+      margin: 10% 10%;
 
       .past-trips-container,
       .approved-trips-container,
@@ -135,36 +153,45 @@ body {
         display: flex;
         flex-wrap: wrap;
         margin: 15px;
+        gap: 100px;
 
         p {
-          @include secondary-font
+          @include secondary-font;
         }
-        
+
         article {
           @include container-dark();
           @include center();
           @include center-align-column();
-          margin: 2em auto;
+          margin: 1em auto;
 
-          h3, p {
+          h3,
+          p {
             @include secondary-font;
-            margin:0;
+            margin: 0;
           }
 
-          img {
-            width: 300px;
+          .image-container {
+            // width: 3px;
+            
+            img {
+              filter: sepia(55%);
+              border-radius: 9px;
+              height: 230px;
+              width: 330px;
+              object-fit: cover;
+            }
           }
 
           &:hover {
             transform: scale(1.05);
-            background-color: darken($container-dark-color, 2%);
+            background-color: darken($container-dark-color, 2.3%);
+            transition: 0.2s;
           }
-
         }
         .card {
           width: 350px;
         }
-
       }
 
       h2 {
@@ -172,11 +199,13 @@ body {
       }
     }
   }
+  .hidden {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 700px) {
-
-  body { 
-    zoom:65%;
+  body {
+    zoom: 65%;
   }
 }

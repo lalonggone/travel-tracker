@@ -1,6 +1,4 @@
-// lets see what we're working with!
-// get that DATA and send it to scripts.js
-import { successfulTripBooked, fillOutAllFields } from "./domUpdates";
+import { successfulTripBooked } from "./domUpdates";
 let nextTripId;
 
 function getAllData() {
