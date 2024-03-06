@@ -6,7 +6,7 @@ import {
   updateWelcomeTitle,
   buildBookingSection,
   singleTripCostButton,
-  bookTripButton,
+  // bookTripButton,
   clearTripContainers,
   checkAndDisplayEmptyMessage,
   displayTotalCost,
@@ -42,7 +42,8 @@ function logIn() {
   
   function travelerDashboardData(currentTraveler) {
     const dashboardData = {
-      name: currentTraveler.name
+      name: currentTraveler.name,
+      id: currentTraveler.id
     }
     getAllData().then((data) => {
       const { travelers, trips, destinations } = data
@@ -72,18 +73,7 @@ document.addEventListener("balm", () => {
     updateWelcomeTitle(currentTraveler.name);
     clearTripContainers();
 
-    const processedTrips = processTrips(travelerTrips, destinations);
     const totalCost = calculateTotalTripCost(travelerTrips, destinations);
-
-    processedTrips.forEach((processedTrip) => {
-      if (processedTrip.status === "approved") {
-        addTripToContainer(processedTrip, ".approved-trips-container");
-      } else if (processedTrip.status === "pending") {
-        addTripToContainer(processedTrip, ".pending-trips-container");
-      } else {
-        addTripToContainer(processedTrip, ".past-trips-container");
-      }
-    });
 
     logIn()
     displayTotalCost(totalCost);
@@ -131,23 +121,23 @@ function calculateTotalSpent(travelerTrips, destinations) {
   return totalCost;
 }
 
-// function calculateSingleTripCost(
-//   destinationID,
-//   numTravelers,
-//   numDays,
-//   destinations
-// ) {
-//   const destination = destinations.find((dest) => dest.id === destinationID);
+function calculateSingleTripCost(
+  destinationID,
+  numTravelers,
+  numDays,
+  destinations
+) {
+  const destination = destinations.find((dest) => dest.id === destinationID);
 
-//   const tripFlightCost =
-//     destination.estimatedFlightCostPerPerson * numTravelers;
-//   const tripLodgingCost = destination.estimatedLodgingCostPerDay * numDays;
+  const tripFlightCost =
+    destination.estimatedFlightCostPerPerson * numTravelers;
+  const tripLodgingCost = destination.estimatedLodgingCostPerDay * numDays;
 
-//   const costBeforeAgentFee = tripFlightCost + tripLodgingCost;
-//   const totalCost = costBeforeAgentFee + costBeforeAgentFee * 0.1;
+  const costBeforeAgentFee = tripFlightCost + tripLodgingCost;
+  const singleTripCost = costBeforeAgentFee + costBeforeAgentFee * 0.1;
 
-//   return totalCost;
-// }
+  return singleTripCost;
+}
 
-// export { calculateSingleTripCost, currentTravelerId };
+export { calculateSingleTripCost };
 export { travelerDashboardData, processTrips };

@@ -1,4 +1,4 @@
- import { travelerDashboardData, processTrips } from "./scripts";
+ import { calculateSingleTripCost, processTrips } from "./scripts";
 
 const applicationContainer = document.querySelector(".application-container");
 
@@ -7,18 +7,17 @@ function renderInvalidLogin() {
   invalidLoginSection.innerHTML = `<p class="invalid-login-message">invalid login</p>`
 
   setTimeout(() => {
-    invalidLoginSection.remove();
-  }, 1000000);
+    invalidLoginSection.innerHTML = "";
+  }, 3000);
 }
 
 function renderDashboard(data) {
+  console.log(data);
   clearLogin();
   renderDashboardHeader(data.name, data.totalSpent);
-  renderBookingForm(data.destinations);
+  renderBookingForm(data);
   setupTripSections();
   renderTripsToSections(data)
-  
-  
   }
 
   function clearLogin() {
@@ -77,14 +76,12 @@ function renderDashboard(data) {
     `;
     applicationContainer.appendChild(bookingSection);
   
-    populateDestinationOptions(data);
-    setupFormEventListeners();
+    populateDestinationOptions(data.destinations);
+    // console.log(data);
+    setupFormEventListeners(data);
   }
 
   function setupTripSections() {
-    applicationContainer.appendChild(
-      createTripSection("YOUR PAST TRIPS", "past-trips-container")
-    );
     applicationContainer.appendChild(
       createTripSection("YOUR UPCOMING TRIPS", "approved-trips-container")
     );
@@ -104,29 +101,33 @@ function renderDashboard(data) {
   function renderTrips(organizedTrips) {
     addTripsToContainer(organizedTrips.approved, "approved-trips-container");
     addTripsToContainer(organizedTrips.pending, "pending-trips-container");
-    addTripsToContainer(organizedTrips.past, "past-trips-container");
   }
 
 
 
-function populateDestinationOptions(data) {
-  const destinations = data
-  
-  const destinationMenu = document.getElementById('destinationMenu');
-  destinations.forEach(destination => {
-      const option = document.createElement('option');
-      option.value = destination.id;
-      option.textContent = destination.name;
-      destinationMenu.appendChild(option);
-  });
-}
+  function populateDestinationOptions(data) {
+    const destinations = data;
+    
+    const destinationMenu = document.getElementById('destinationMenu');
+    destinations.forEach(destination => {
+        const option = document.createElement('option');
+        option.value = destination.id;
+        if (destination.destination.length > 20) {
+            const parts = destination.destination.split(', ');
+            option.textContent = parts.length > 1 ? parts[parts.length - 1] : destination.destination;
+        } else {
+            option.textContent = destination.destination;
+        }
+        destinationMenu.appendChild(option);
+    });
+  }
 
-function setupFormEventListeners() {
+function setupFormEventListeners(data) {
   const costBtn = document.getElementById('costBtn');
   const bookBtn = document.getElementById('bookBtn');
 
-  // costBtn.addEventListener('click', estimateTripCost);
-  // bookBtn.addEventListener('click', bookTrip); 
+  costBtn.addEventListener('click', singleTripCostButton(data.destinations));
+  bookBtn.addEventListener('click', bookTripButton(data)); 
 }
 
 function addTripsToContainer(trips, containerClass) {
@@ -179,7 +180,6 @@ function organizeTrips(trips) {
   const organizedTrips = {
     approved: [],
     pending: [],
-    past: [],
   };
 
   trips.forEach((trip) => {
@@ -187,16 +187,11 @@ function organizeTrips(trips) {
       organizedTrips[trip.status].push(trip);
     } else if (trip.status === "pending") {
       organizedTrips[trip.status].push(trip);
-    } else {
-      organizedTrips["past"].push(trip);
-    }
+    } 
   });
 
   return organizedTrips;
 }
-
-
-
 
 function updateWelcomeTitle(name) {
   const welcomeTitle = document.querySelector(".welcome-title");
@@ -227,27 +222,34 @@ function singleTripCostButton(destinations) {
         numDays,
         destinations
       );
-      const container = document.querySelector("#book-trip-container");
-      const costElement = document.createElement("h2");
-      costElement.classList.add("estimated-cost");
-      costElement.textContent = `Estimated Trip Cost: $${singleTripCost}`;
-
-      const previousCost = container.querySelector(".estimated-cost");
-      if (previousCost) {
-        container.removeChild(previousCost);
-      }
-      container.appendChild(costElement);
+      displayTripCost(singleTripCost);
     } else {
       fillOutAllFields();
     }
   });
 }
 
-function bookTripButton() {
-  const bookTripButton = document.getElementById("bookBtn");
+function displayTripCost(cost) {
+  const container = document.querySelector("#book-trip-container");
+  const costElement = document.createElement("h2");
+  costElement.classList.add("estimated-cost");
+  costElement.textContent = `Estimated Trip Cost: $${cost.toFixed(2)}`;
 
+  const previousCost = container.querySelector(".estimated-cost");
+  if (previousCost) {
+    container.removeChild(previousCost);
+  }
+  container.appendChild(costElement);
+}
+
+
+
+function bookTripButton(data) {
+  const bookTripButton = document.getElementById("bookBtn");
+  
   bookTripButton.addEventListener("click", () => {
-    const tripId = nextTripId;
+    console.log("BOOK TRIP", data);
+    const tripId = data.id;
     const travelerId = currentTravelerId;
     const destinationID = +document.getElementById("destinationMenu").value;
     const numTravelers = +document.getElementById("travelersInput").value;
@@ -256,6 +258,7 @@ function bookTripButton() {
       .value.replace(/-/g, "/");
     const numDays = +document.getElementById("durationInput").value;
 
+    console.log(tripId, travelerId, destinationID, numTravelers, date, numDays);
     postTrip(tripId, travelerId, destinationID, numTravelers, date, numDays);
   });
 }
@@ -272,7 +275,6 @@ function fillOutAllFields() {
 }
 
 function clearTripContainers() {
-  document.querySelector(".past-trips-container").innerHTML = "";
   document.querySelector(".approved-trips-container").innerHTML = "";
   document.querySelector(".pending-trips-container").innerHTML = "";
 }
