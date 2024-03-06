@@ -43,7 +43,7 @@ function logIn() {
   function travelerDashboardData(currentTraveler) {
     const dashboardData = {
       name: currentTraveler.name,
-      id: currentTraveler.id
+      travelerId: currentTraveler.id
     }
     getAllData().then((data) => {
       const { travelers, trips, destinations } = data
@@ -63,28 +63,28 @@ function travelerTrips(userID, trips) {
   return travelerTrips
 }
 
-document.addEventListener("balm", () => {
-  getAllData().then((data) => {
-    const { travelers, trips, destinations } = data;
-    currentTraveler = travelers.find(
-      (traveler) => traveler.id === currentTravelerId
-    );
+// document.addEventListener("balm", () => {
+//   getAllData().then((data) => {
+//     const { travelers, trips, destinations } = data;
+//     currentTraveler = travelers.find(
+//       (traveler) => traveler.id === currentTravelerId
+//     );
 
-    updateWelcomeTitle(currentTraveler.name);
-    clearTripContainers();
+//     updateWelcomeTitle(currentTraveler.name);
+//     clearTripContainers();
 
-    const totalCost = calculateTotalTripCost(travelerTrips, destinations);
+//     const totalCost = calculateTotalTripCost(travelerTrips, destinations);
 
-    logIn()
-    displayTotalCost(totalCost);
-    buildBookingSection(destinations);
-    singleTripCostButton(destinations);
-    bookTripButton();
-    checkAndDisplayEmptyMessage(".pending-trips-container", "pending");
-    checkAndDisplayEmptyMessage(".past-trips-container", "past");
-    checkAndDisplayEmptyMessage(".approved-trips-container", "upcoming");
-  });
-});
+//     logIn()
+//     displayTotalCost(totalCost);
+//     buildBookingSection(destinations);
+//     singleTripCostButton(destinations);
+//     bookTripButton();
+//     checkAndDisplayEmptyMessage(".pending-trips-container", "pending");
+//     checkAndDisplayEmptyMessage(".past-trips-container", "past");
+//     checkAndDisplayEmptyMessage(".approved-trips-container", "upcoming");
+//   });
+// });
 
 function processTrips(travelerTrips, destinations) {
   return travelerTrips.map((trip) => {

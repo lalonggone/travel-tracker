@@ -13,6 +13,7 @@ function getAllData() {
   ])
     .then(([travelers, trips, destinations]) => {
       nextTripId = trips.trips.length + 1;
+      console.log("next trip id", nextTripId)
       return {
         travelers: travelers.travelers,
         trips: trips.trips,
@@ -22,17 +23,7 @@ function getAllData() {
     .catch((error) => console.error(error));
 }
 
-function postTrip(id, userID, destinationID, numTravelers, date, numDays) {
-  const tripData = {
-    id: id,
-    userID: userID,
-    destinationID: destinationID,
-    travelers: numTravelers,
-    date: date,
-    duration: numDays,
-    status: "pending",
-    suggestedActivities: [],
-  };
+function postTrip(tripData) {
 
   fetch("http://localhost:3001/api/v1/trips", {
     method: "POST",
@@ -42,15 +33,16 @@ function postTrip(id, userID, destinationID, numTravelers, date, numDays) {
     },
   })
     .then((response) => {
-      if(response.status === 422) {
-        fillOutAllFields()
+      if(!response.ok) {
+        console.log(response)
+        throw new Error('Response is NOT OK! :(')
       }
-      response.json()
+      return response.json()
     })
     .then((json) => {
+      console.log(json)
       if(response.ok) {
       successfulTripBooked();
-      console.log("JSON DERULOOO", json);
       }
     })
     .catch((err) => console.log(err, "error"));
