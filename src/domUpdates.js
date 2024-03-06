@@ -32,9 +32,10 @@ function renderDashboard(data) {
     header.innerHTML = `
         <h1 class="header-title">TRAVEL TRACKER</h1>
         <section class="header-right">
-          <h2 class="welcome-title">Welcome, ${username}</h2>
+          <h2 class="welcome-title">${username}'s personal</h2>
           <h3 class="total-spent">You've spent $${totalSpent} on traveling the world!</h3>
         </section>
+        <div class="blur-overlay"></div>
     `;
     applicationContainer.appendChild(header);
   }
@@ -60,12 +61,12 @@ function renderDashboard(data) {
             </div>
             <div class="booking-sections">
                 <label for="durationInput">Duration of trip:
-                    <input required class="input" name="duration-input" id="durationInput" type="number" min="1" placeholder="number of days">
+                    <input required class="input" name="duration-input" id="durationInput" type="number" min="1" placeholder="days">
                 </label>
             </div>
             <div class="booking-sections">
                 <label for="travelersInput">Number of travelers:
-                    <input required class="input" name="travelers-input" id="travelersInput" type="number" min="1">
+                    <input required class="input" name="travelers-input" id="travelersInput" type="number" min="1" placeholder="travlers">
                 </label>
             </div>
             <div class="booking-btns">
@@ -159,8 +160,12 @@ function addTripsToContainer(trips, containerClass) {
 
 function createTripSection(title, containerClass) {
   const sectionElement = document.createElement("section");
+  sectionElement.className = "trip-section"
+  
   const header = document.createElement("h2");
+  header.className = "trip-header"
   header.textContent = title;
+
   const containerDiv = document.createElement("div");
   containerDiv.className = containerClass;
 

@@ -8,18 +8,18 @@
 html,
 body {
   @include center();
+  @include no-padding-or-margin();
   position: absolute;
   height: 100%;
   width: 100%;
   left: 0;
-  background-color: #3c4854;
+  background: $dark-text-color;
+  
 
   .application-container {
     width: 100%;
-
-    img {
-      width: 50%;
-    }
+    display: flex;
+    flex-direction: column;
 
     .login-title {
       font-size: 120%;
@@ -30,6 +30,8 @@ body {
       @include main-font();
       @include center();
       @include container-dark();
+      margin: 150px auto;
+
       width: 250px;
       flex-direction: column;
 
@@ -49,17 +51,47 @@ body {
 
     header {
       display: flex;
+      align-items: center;
       flex-direction: column;
+      background-image: url('https://images.pexels.com/photos/9754/mountains-clouds-forest-fog.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center top;
+      position: relative;
+
+      .blur-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -40px;
+        height: 10%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, $dark-text-color 100%);
+        backdrop-filter: blur(4px);
+    }
 
       h1 {
         @include main-font;
         @include container-dark;
+        margin: 80px auto;
+        margin-bottom: 0px;
+        text-align: center;
+        max-width: 500px;
+      }
+      
+      h2, h3 {
+        @include secondary-font;
+        color: $dark-text-color;
+        text-align: center;
+        margin-top: 20px;
       }
 
-      h2,
+      h2 {
+        position: relative;
+        top: -150px;
+      }
       h3 {
-        @include secondary-font;
-        text-align: center;
+        position: relative;
+        top: -50px;
       }
 
       .total-spent {
@@ -67,34 +99,84 @@ body {
       }
     }
 
+
     .book-trip-section {
       @include secondary-font;
       @include center();
+      margin-top: 80px;
       flex-direction: column;
       align-items: center;
-      
+
       h2 {
         @include main-font;
       }
     }
-    
+
     .form {
       @include center();
       @include container-dark();
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       margin-top: 20px;
-      
-      .booking-sections {
-        // would be nice to get the booking form looking 
-        // label {
-        //   text-align: center;
-      }
 
       .input {
-        @include inputs()
+        @include inputs();
       }
-      
     }
+
+    .trip-section {
+      @include center();
+      @include center-align-column();
+      margin: 4% 10%;
+
+      .past-trips-container,
+      .approved-trips-container,
+      .pending-trips-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 15px;
+
+        p {
+          @include secondary-font
+        }
+        
+        article {
+          @include container-dark();
+          @include center();
+          @include center-align-column();
+          margin: 2em auto;
+
+          h3, p {
+            @include secondary-font;
+            margin:0;
+          }
+
+          img {
+            width: 300px;
+          }
+
+          &:hover {
+            transform: scale(1.05);
+            background-color: darken($container-dark-color, 2%);
+          }
+
+        }
+        .card {
+          width: 350px;
+        }
+
+      }
+
+      h2 {
+        @include main-font;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+
+  body { 
+    zoom:65%;
   }
 }
