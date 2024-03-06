@@ -3,13 +3,6 @@ import { getAllData } from "./apiCalls";
 import {
   renderInvalidLogin,
   renderDashboard,
-  updateWelcomeTitle,
-  buildBookingSection,
-  singleTripCostButton,
-  // bookTripButton,
-  clearTripContainers,
-  checkAndDisplayEmptyMessage,
-  displayTotalCost,
 } from "./domUpdates";
 
 
@@ -62,29 +55,6 @@ function travelerTrips(userID, trips) {
   )
   return travelerTrips
 }
-
-// document.addEventListener("balm", () => {
-//   getAllData().then((data) => {
-//     const { travelers, trips, destinations } = data;
-//     currentTraveler = travelers.find(
-//       (traveler) => traveler.id === currentTravelerId
-//     );
-
-//     updateWelcomeTitle(currentTraveler.name);
-//     clearTripContainers();
-
-//     const totalCost = calculateTotalTripCost(travelerTrips, destinations);
-
-//     logIn()
-//     displayTotalCost(totalCost);
-//     buildBookingSection(destinations);
-//     singleTripCostButton(destinations);
-//     bookTripButton();
-//     checkAndDisplayEmptyMessage(".pending-trips-container", "pending");
-//     checkAndDisplayEmptyMessage(".past-trips-container", "past");
-//     checkAndDisplayEmptyMessage(".approved-trips-container", "upcoming");
-//   });
-// });
 
 function processTrips(travelerTrips, destinations) {
   return travelerTrips.map((trip) => {

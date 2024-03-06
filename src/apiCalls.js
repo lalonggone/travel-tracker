@@ -13,7 +13,6 @@ function getAllData() {
   ])
     .then(([travelers, trips, destinations]) => {
       nextTripId = trips.trips.length + 1;
-      console.log("next trip id", nextTripId)
       return {
         travelers: travelers.travelers,
         trips: trips.trips,
@@ -24,7 +23,6 @@ function getAllData() {
 }
 
 function postTrip(tripData) {
-
   fetch("http://localhost:3001/api/v1/trips", {
     method: "POST",
     body: JSON.stringify(tripData),
@@ -33,19 +31,23 @@ function postTrip(tripData) {
     },
   })
     .then((response) => {
-      if(!response.ok) {
-        console.log(response)
-        throw new Error('Response is NOT OK! :(')
+      if (!response.ok) {
+        return response.json().then((err) => {
+          throw new Error(
+            `Error: ${response.status} ${response.statusText} - ${err.message}`
+          );
+        });
       }
-      return response.json()
+      return response.json();
     })
     .then((json) => {
-      console.log(json)
-      if(response.ok) {
+      console.log("JSON", json);
       successfulTripBooked();
-      }
     })
-    .catch((err) => console.log(err, "error"));
+    .catch((err) => {
+      console.error("Fetch error:", err);
+      // displayErrorMessage() doesnt exist but would be nice for UX
+    });
 }
 
 export { getAllData, postTrip, nextTripId };

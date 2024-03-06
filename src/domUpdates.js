@@ -216,8 +216,6 @@ function singleTripCostButton(destinations) {
 // DESTRUCTURING.. this is how to use the return val in HERE from the helper funtion out THERE
   const [destinationID, numDays, numTravelers] = getBookingInputs();
 
-  console.log(destinationID, numDays, numTravelers)
-
     if (destinationID && numDays > 0 && numTravelers > 0) {
       const singleTripCost = calculateSingleTripCost(
         destinationID,
@@ -225,7 +223,6 @@ function singleTripCostButton(destinations) {
         numDays,
         destinations
       );
-      console.log(singleTripCost)
       displayTripCost(singleTripCost);
     } else {
       fillOutAllFields();
@@ -267,7 +264,7 @@ function processPostTripData(data) {
     status: "pending",
     suggestedActivities: [],
   };
-  return tripData;
+  postTrip(tripData)
 }
 
 function successfulTripBooked() {
