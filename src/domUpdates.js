@@ -3,15 +3,12 @@
 const applicationContainer = document.querySelector(".application-container");
 
 function renderInvalidLogin() {
-  const invalidLoginSection = document.createElement("section");
-  invalidLoginSection.classList.add("invalid-login-section");
-  invalidLoginSection.innerHTML = `
-  <h1 class="invalid-login-message">Invalid login<h1>                                                                                                                                                                                                                                                                                                                                  
-  `;
-  applicationContainer.appendChild(invalidLoginSection);
+  const invalidLoginSection = document.querySelector(".invalid-login-section");
+  invalidLoginSection.innerHTML = `<p class="invalid-login-message">invalid login</p>`
+
   setTimeout(() => {
     invalidLoginSection.remove();
-  }, 3000);
+  }, 1000000);
 }
 
 function renderDashboard(data) {
@@ -35,9 +32,10 @@ function renderDashboard(data) {
     header.innerHTML = `
         <h1 class="header-title">TRAVEL TRACKER</h1>
         <section class="header-right">
-          <h2 class="welcome-title">Welcome, ${username}</h2>
+          <h2 class="welcome-title">${username}'s personal</h2>
           <h3 class="total-spent">You've spent $${totalSpent} on traveling the world!</h3>
         </section>
+        <div class="blur-overlay"></div>
     `;
     applicationContainer.appendChild(header);
   }
@@ -47,28 +45,28 @@ function renderDashboard(data) {
     bookingSection.id = 'book-trip-container';
     bookingSection.className = 'book-trip-section';
     bookingSection.innerHTML = `
-        <h2 class="booking-title">Plan Your Next Adventure</h2>
+        <h2 class="booking-title">PLAN YOUR NEXT ADVENTURE</h2>
         <form id="book-trip-form" class="form">
             <div class="booking-sections">
                 <label for="destinationMenu">Select destination:
-                    <select required name="destination-menu" id="destinationMenu">
+                    <select required class="input" name="destination-menu" id="destinationMenu">
                         <option value="0">Select destination</option>
                     </select>
                 </label>
             </div>
             <div class="booking-sections">
                 <label for="startDateMenu">Departure date:
-                    <input required name="start-date-menu" id="startDateMenu" type="date" min="2019-01-01" max="2030-12-31">
+                    <input required class="input" name="start-date-menu" id="startDateMenu" type="date" min="2019-01-01" max="2030-12-31">
                 </label>
             </div>
             <div class="booking-sections">
                 <label for="durationInput">Duration of trip:
-                    <input required name="duration-input" id="durationInput" type="number" min="1" placeholder="number of days">
+                    <input required class="input" name="duration-input" id="durationInput" type="number" min="1" placeholder="days">
                 </label>
             </div>
             <div class="booking-sections">
                 <label for="travelersInput">Number of travelers:
-                    <input required name="travelers-input" id="travelersInput" type="number" min="1">
+                    <input required class="input" name="travelers-input" id="travelersInput" type="number" min="1" placeholder="travlers">
                 </label>
             </div>
             <div class="booking-btns">
@@ -85,13 +83,13 @@ function renderDashboard(data) {
 
   function setupTripSections() {
     applicationContainer.appendChild(
-      createTripSection("Your Past Trips", "past-trips-container")
+      createTripSection("YOUR PAST TRIPS", "past-trips-container")
     );
     applicationContainer.appendChild(
-      createTripSection("Your Upcoming Trips", "approved-trips-container")
+      createTripSection("YOUR UPCOMING TRIPS", "approved-trips-container")
     );
     applicationContainer.appendChild(
-      createTripSection("Your Pending Trips", "pending-trips-container")
+      createTripSection("YOUR PENDING TRIPS", "pending-trips-container")
     );
   }
 
@@ -162,8 +160,12 @@ function addTripsToContainer(trips, containerClass) {
 
 function createTripSection(title, containerClass) {
   const sectionElement = document.createElement("section");
+  sectionElement.className = "trip-section"
+  
   const header = document.createElement("h2");
+  header.className = "trip-header"
   header.textContent = title;
+
   const containerDiv = document.createElement("div");
   containerDiv.className = containerClass;
 
@@ -260,8 +262,7 @@ function bookTripButton() {
 
 function successfulTripBooked() {
   document.querySelector(
-    ".booking-title"
-  ).innerText = `Trip Booked! Awaiting agent approval`;
+    ".booking-title").innerText = `Trip Booked! Awaiting agent approval`;
 }
 
 function fillOutAllFields() {

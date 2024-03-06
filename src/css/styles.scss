@@ -1,100 +1,97 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:100,200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
 @import "config";
 @import "utilities";
 @import "buttons";
 
 html,
 body {
-  @include vertically-center();
+  @include center();
+  @include no-padding-or-margin();
   position: absolute;
   height: 100%;
   width: 100%;
   left: 0;
-  background-color: #3c4854;
+  background: $dark-text-color;
+  
 
   .application-container {
     width: 100%;
-
-    img {
-      width: 50%;
-    }
+    display: flex;
+    flex-direction: column;
 
     .login-title {
+      font-size: 120%;
       text-align: center;
     }
 
     .login-form {
       @include main-font();
-      @include vertically-center();
-      letter-spacing: 7px;
-      width: 250px;
-      background-color: $background-color;
-      padding: 20px;
-      border-radius: 5px;
-      margin: 90px auto;
-      flex-direction: column;
-      gap: 20px;
+      @include center();
+      @include container-dark();
+      margin: 150px auto;
 
-      label {
-        color: $main-text-color;
-        margin-bottom: 5px;
-      }
+      width: 250px;
+      flex-direction: column;
 
       .login-input {
-        background-color: $input-background-color;
-        border: 1px solid $input-border-color;
-        border-radius: 4px;
-        color: $main-text-color;
-        letter-spacing: 2px;
-        padding: 11px;
-        outline: none;
-
-        &:focus {
-          border-color: lighten($input-border-color, 20%);
-        }
+        @include inputs();
       }
 
-      .login-button {
-        font-family: $main-font;
-        background-color: $button-color;
-        border: none;
-        border-radius: 4px;
-        color: $main-text-color;
-        padding: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        letter-spacing: 3px;
+      .invalid-login-section {
+        @include center;
+        height: 17px;
 
-        &:hover {
-          background-color: $button-hover-color;
+        .invalid-login-message {
+          @include error-message();
         }
-      }
-
-      .error-message {
-        color: $error-color;
-        margin-top: -10px;
       }
     }
 
     header {
       display: flex;
+      align-items: center;
       flex-direction: column;
+      background-image: url('https://images.pexels.com/photos/9754/mountains-clouds-forest-fog.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center top;
+      position: relative;
+
+      .blur-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -40px;
+        height: 10%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, $dark-text-color 100%);
+        backdrop-filter: blur(4px);
+    }
 
       h1 {
         @include main-font;
-        margin: 80px 200px 30px;
+        @include container-dark;
+        margin: 80px auto;
+        margin-bottom: 0px;
         text-align: center;
-        padding: 30px;
-        border: 0.7px solid $main-text-color;
-        border-radius: 6px;
+        max-width: 500px;
+      }
+      
+      h2, h3 {
+        @include secondary-font;
+        color: $dark-text-color;
+        text-align: center;
+        margin-top: 20px;
       }
 
-      h2,
+      h2 {
+        position: relative;
+        top: -150px;
+      }
       h3 {
-        @include main-font;
-        letter-spacing: 3px;
-        text-align: center;
+        position: relative;
+        top: -50px;
       }
 
       .total-spent {
@@ -102,14 +99,84 @@ body {
       }
     }
 
-    .book-trip-section {
-      @include main-font;
-      display: flex;
 
+    .book-trip-section {
+      @include secondary-font;
+      @include center();
+      margin-top: 80px;
+      flex-direction: column;
+      align-items: center;
+
+      h2 {
+        @include main-font;
+      }
     }
-    .book-trip-form {
-      @include vertically-center()
-      
+
+    .form {
+      @include center();
+      @include container-dark();
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 20px;
+
+      .input {
+        @include inputs();
+      }
     }
+
+    .trip-section {
+      @include center();
+      @include center-align-column();
+      margin: 4% 10%;
+
+      .past-trips-container,
+      .approved-trips-container,
+      .pending-trips-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 15px;
+
+        p {
+          @include secondary-font
+        }
+        
+        article {
+          @include container-dark();
+          @include center();
+          @include center-align-column();
+          margin: 2em auto;
+
+          h3, p {
+            @include secondary-font;
+            margin:0;
+          }
+
+          img {
+            width: 300px;
+          }
+
+          &:hover {
+            transform: scale(1.05);
+            background-color: darken($container-dark-color, 2%);
+          }
+
+        }
+        .card {
+          width: 350px;
+        }
+
+      }
+
+      h2 {
+        @include main-font;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+
+  body { 
+    zoom:65%;
   }
 }
