@@ -298,6 +298,25 @@ function displayTotalCost(totalCost) {
   costDisplayElement.textContent = `You've spent $${totalCost} on traveling the world!`;
 }
 
+
+// NEW TRIP FUCTIONS
+
+function processNewTrip(newTrip, destinations) {
+  const destination = destinations.find(dest => dest.id === newTrip.destinationID)
+  console.log(newTrip);
+  console.log(destination);
+  
+  // return {
+  //   destination: newTrip.destination,
+  //   image: destination.image,
+  //   alt: destination.alt,
+  //   travelers: trip.travelers,
+  //   date: trip.date,
+  //   duration: trip.duration,
+  //   status: trip.status,
+  // };
+}
+
 export {
   renderInvalidLogin,
   renderDashboard,
@@ -309,4 +328,5 @@ export {
   clearTripContainers,
   checkAndDisplayEmptyMessage,
   displayTotalCost,
+  processNewTrip,
 };

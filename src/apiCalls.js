@@ -1,4 +1,4 @@
-import { successfulTripBooked } from "./domUpdates";
+import { successfulTripBooked, processNewTrip } from "./domUpdates";
 let nextTripId;
 
 function getAllData() {
@@ -39,7 +39,8 @@ function postTrip(tripData) {
       return response.json();
     })
     .then((json) => {
-      console.log("JSON", json);
+      const newTrip = json.newTrip
+      getDestinationForProcessing(newTrip);
       successfulTripBooked();
     })
     .catch((err) => {
@@ -47,5 +48,17 @@ function postTrip(tripData) {
       // displayErrorMessage() doesnt exist but would be nice for UX
     });
 }
+
+function getDestinationForProcessing(newTrip) {
+  return fetch("http://localhost:3001/api/v1/destinations")
+    .then((resp) => resp.json())
+    .then((data) => {
+      const destinations = data.destinations;
+      const destination = destinations.find(dest => dest.id === newTrip.destinationID);
+      console.log(destination)
+      return destination;
+    });
+}
+
 
 export { getAllData, postTrip, nextTripId };
