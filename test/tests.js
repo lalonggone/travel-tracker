@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { processTrips, calculateTotalTripCost } from "./functions";
+import { processTrips, calculateTotalTripCost, calculateSingleTripCost } from "./functions";
 
 describe("Travel Tracker Functions", function () {
   let travelerTrips;
@@ -100,4 +100,29 @@ describe("Travel Tracker Functions", function () {
       expect(totalCost).to.equal(3350);
     });
   });
+
+  describe('calculateSingleTripCost', () => {
+    it('calculates the cost for a single trip correctly', () => {
+      const destinationID = 1;
+      const numTravelers = 2;
+      const numDays = 7;
+      const expectedCost = ((300 * numTravelers) + (150 * numDays)) + 650;
+      console.log(expectedCost);
+      const actualCost = calculateSingleTripCost(destinationID, numTravelers, numDays, sampleDestinations);
+      console.log(actualCost);
+      expect(actualCost).to.equal(expectedCost);
+    });
+  
+    it('calculates the cost for a single trip with different parameters correctly', () => {
+      const destinationID = 3;
+      const numTravelers = 4;
+      const numDays = 10;
+      const expectedCost = ((200 * numTravelers) + (250 * numDays)) + 330;
+      const actualCost = calculateSingleTripCost(destinationID, numTravelers, numDays, sampleDestinations);
+      expect(actualCost).to.equal(expectedCost);
+    });
+  });
+  
+  
+
 });
