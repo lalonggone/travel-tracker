@@ -12,7 +12,7 @@ Travel Tracker is a dynamic web application that allows users to plan, book, and
 
 ## Screenshot
 
-https://github.com/lalonggone/travel-tracker/assets/137913045/5700511d-fa5c-462b-aace-0f41d360c47b
+https://github.com/lalonggone/travel-tracker/assets/137913045/b34544de-f7f2-45eb-a1c8-5dd4824317f2
 
 ## Installation and Setup
 1. Clone the repository:
