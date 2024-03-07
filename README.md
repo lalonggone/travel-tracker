@@ -10,6 +10,10 @@ Travel Tracker is a dynamic web application that allows users to plan, book, and
 - Trip Management: Users can view their upcoming, pending, and past trips in organized sections.
 - Responsive Design: The application is fully responsive, ensuring a seamless experience across various devices and screen sizes.
 
+## Screenshot
+
+https://github.com/lalonggone/travel-tracker/assets/137913045/5700511d-fa5c-462b-aace-0f41d360c47b
+
 ## Installation and Setup
 1. Clone the repository:
 git clone https://github.com/your-username/travel-tracker.git
