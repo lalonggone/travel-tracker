@@ -1,4 +1,4 @@
-import { successfulTripBooked } from "./domUpdates";
+import { successfulTripBooked, appendNewTripToDOM } from "./domUpdates";
 import { processNewTrip } from "./scripts";
 
 let nextTripId;
@@ -41,31 +41,35 @@ function postTrip(tripData) {
       return response.json();
     })
     .then((json) => {
-      const newTrip = json.newTrip
+      const newTrip = json.newTrip;
       successfulTripBooked();
-
-      const destination = getDestinationForProcessing(newTrip);
-      const processedTripForDom = processNewTrip(newTrip, destination)
-
-      console.log("new trip", newTrip);
-      console.log("new dest", destination);
-
-
+      nextTripId += 1
+      return fetch("http://localhost:3001/api/v1/destinations")
+        .then((resp) => resp.json())
+        .then((data) => {
+          const destinations = data.destinations;
+          return {
+            newTrip,
+            destination: destinations.find(dest => dest.id === newTrip.destinationID)
+          };
+        });
+    })
+    .then(({ newTrip, destination }) => {
+      if (destination) {
+        const processedTripForDom = processNewTrip(newTrip, destination);
+        appendNewTripToDOM(processedTripForDom, 'pending-trips-container')
+      } else {
+        console.log("Destination not found for the new trip");
+      }
     })
     .catch((err) => {
       console.error("Fetch error:", err);
-      // displayErrorMessage() doesnt exist but would be nice for UX
+      // displayErrorMessage() does not exist yet but when it does, call it here
     });
 }
 
+
 function getDestinationForProcessing(newTrip) {
-  return fetch("http://localhost:3001/api/v1/destinations")
-    .then((resp) => resp.json())
-    .then((data) => {
-      const destinations = data.destinations;
-      const destination = destinations.find(dest => dest.id === newTrip.destinationID);
-      console.log("DEST FROM NEW GET", destination);
-    });
 }
 
 

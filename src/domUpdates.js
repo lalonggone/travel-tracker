@@ -298,22 +298,28 @@ function displayTotalCost(totalCost) {
   costDisplayElement.textContent = `You've spent $${totalCost} on traveling the world!`;
 }
 
+function appendNewTripToDOM(newTrip, containerClass) {
 
-// NEW TRIP FUCTIONS
+  const container = document.querySelector('.' + containerClass);
+  const message = document.querySelector('.no-trips-message');
 
-function processNewTrip(newTrip, destinations) {
+  const tripArticle = document.createElement("article");
+  tripArticle.classList.add("card");
+  tripArticle.innerHTML = `
+      <h3 class="card-destination">${newTrip.destination}</h3>
+      <div class="image-container">
+          <img class="card-image" src="${newTrip.image}" alt="${newTrip.alt}">
+      </div>
+      <p class="card-travelers">${newTrip.travelers} travelers</p>
+      <p class="card-date">${newTrip.date}</p>
+      <p class="card-duration">${newTrip.duration} days</p>
+  `;
 
-  
-  // return {
-  //   destination: newTrip.destination,
-  //   image: destination.image,
-  //   alt: destination.alt,
-  //   travelers: trip.travelers,
-  //   date: trip.date,
-  //   duration: trip.duration,
-  //   status: trip.status,
-  // };
+  if(message) message.remove();
+  container.appendChild(tripArticle);
 }
+
+
 
 export {
   renderInvalidLogin,
@@ -326,5 +332,5 @@ export {
   clearTripContainers,
   checkAndDisplayEmptyMessage,
   displayTotalCost,
-  processNewTrip,
+  appendNewTripToDOM,
 };
