@@ -71,6 +71,17 @@ function processTrips(travelerTrips, destinations) {
     };
   });
 }
+function processNewTrip(newTrip, newDest) {
+    return {
+      destination: newDest.destination,
+      image: newDest.image,
+      alt: newDest.alt,
+      travelers: newTrip.travelers,
+      date: newTrip.date,
+      duration: newTrip.duration,
+      status: newTrip.status,
+    }
+}
 
 function calculateTotalSpent(travelerTrips, destinations) {
   let totalCost = 0;
@@ -109,4 +120,4 @@ function calculateSingleTripCost(
 }
 
 export { calculateSingleTripCost };
-export { travelerDashboardData, processTrips };
+export { travelerDashboardData, processTrips, processNewTrip };

@@ -1,4 +1,6 @@
-import { successfulTripBooked, processNewTrip } from "./domUpdates";
+import { successfulTripBooked } from "./domUpdates";
+import { processNewTrip } from "./scripts";
+
 let nextTripId;
 
 function getAllData() {
@@ -40,8 +42,15 @@ function postTrip(tripData) {
     })
     .then((json) => {
       const newTrip = json.newTrip
-      getDestinationForProcessing(newTrip);
       successfulTripBooked();
+
+      const destination = getDestinationForProcessing(newTrip);
+      const processedTripForDom = processNewTrip(newTrip, destination)
+
+      console.log("new trip", newTrip);
+      console.log("new dest", destination);
+
+
     })
     .catch((err) => {
       console.error("Fetch error:", err);
@@ -55,8 +64,7 @@ function getDestinationForProcessing(newTrip) {
     .then((data) => {
       const destinations = data.destinations;
       const destination = destinations.find(dest => dest.id === newTrip.destinationID);
-      console.log(destination)
-      return destination;
+      console.log("DEST FROM NEW GET", destination);
     });
 }
 

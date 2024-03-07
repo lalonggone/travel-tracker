@@ -302,9 +302,7 @@ function displayTotalCost(totalCost) {
 // NEW TRIP FUCTIONS
 
 function processNewTrip(newTrip, destinations) {
-  const destination = destinations.find(dest => dest.id === newTrip.destinationID)
-  console.log(newTrip);
-  console.log(destination);
+
   
   // return {
   //   destination: newTrip.destination,
