@@ -33,4 +33,22 @@ function calculateTotalTripCost(travelerTrips, destinations) {
   return totalCost;
 }
 
-export { processTrips, calculateTotalTripCost };
+function calculateSingleTripCost(
+  destinationID,
+  numTravelers,
+  numDays,
+  destinations
+) {
+  const destination = destinations.find((dest) => dest.id === destinationID);
+
+  const tripFlightCost =
+    destination.estimatedFlightCostPerPerson * numTravelers;
+  const tripLodgingCost = destination.estimatedLodgingCostPerDay * numDays;
+
+  const costBeforeAgentFee = tripFlightCost + tripLodgingCost;
+  const singleTripCost = costBeforeAgentFee + costBeforeAgentFee * 0.1;
+
+  return singleTripCost;
+}
+
+export { processTrips, calculateTotalTripCost, calculateSingleTripCost };
