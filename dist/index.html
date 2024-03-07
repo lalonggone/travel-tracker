@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <title>Travel Tracker</title>
-</head>
-<body>
-  <div class="application-container">
-    <form class="login-form" id="login-form">
-      <p class="login-title">TRAVEL <br> <br> TRACKER</p>
-      <input 
-        type="text"
-        name="username"
-        id="username"
-        class="login-input"
-        placeholder="username"
-      />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        class="login-input"
-        placeholder="password"
-      />
-      <button type="submit" class="login-button" id="login-button">LET'S GO</button>
-      <section class="invalid-login-section"></section>
-    </form>
-  </div>
-  <script src="bundle.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Travel Tracker</title>
+  </head>
+  <body>
+    <div class="application-container" role="main">
+      <form
+        class="login-form"
+        id="login-form"
+        role="form"
+        aria-labelledby="loginTitle"
+      >
+        <p id="loginTitle" class="login-title">
+          TRAVEL <br />
+          <br />
+          TRACKER
+        </p>
+        <label for="usernameLabel" class="hidden">username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          class="login-input"
+          placeholder="username"
+          aria-required="true"
+          aria-labelledby="usernameLabel"
+        />
+        <label for="passwordLabel" class="hidden">password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="login-input"
+          placeholder="password"
+          aria-required="true"
+          aria-labelledby="passwordLabel"
+        />
+        <button type="submit" class="login-button" id="login-button">
+          LET'S GO
+        </button>
+        <div class="invalid-login-section" aria-live="assertive"></div>
+      </form>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
 </html>

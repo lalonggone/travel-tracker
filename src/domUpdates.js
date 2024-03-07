@@ -28,11 +28,12 @@ function clearLogin() {
 function renderDashboardHeader(username, totalSpent) {
   const header = document.createElement("header");
   header.classList.add("dashboard-header");
+  header.setAttribute("role", "banner");
   header.innerHTML = `
         <h1 class="header-title">TRAVEL TRACKER</h1>
-        <section class="header-right">
+        <section class="header" aria-label="user information">
           <h2 class="welcome-title">${username}'s personal</h2>
-          <h3 class="total-spent">You've spent $${totalSpent} on traveling the world!</h3>
+          <h3 class="total-spent">You've spent $${totalSpent} traveling the world</h3>
         </section>
         <div class="blur-overlay"></div>
     `;
@@ -45,32 +46,32 @@ function renderBookingForm(data) {
   bookingSection.className = "book-trip-section";
   bookingSection.innerHTML = `
         <h2 class="booking-title">PLAN YOUR NEXT ADVENTURE</h2>
-        <form id="book-trip-form" class="form">
-            <div class="booking-sections">
+        <form id="book-trip-form" class="form" aria-label="Book your trip">
+            <div class="booking-sections" role="group" aria-labelledby="destLabel">
                 <label for="destinationMenu">Select destination:
-                    <select required class="input" name="destination-menu" id="destinationMenu">
+                    <select required class="input" name="destination-menu" id="destinationMenu" aria-haspopup="listbox">
                         <option value="0">Select destination</option>
                     </select>
                 </label>
             </div>
-            <div class="booking-sections">
+            <div class="booking-sections" role="group" aria-labelledby="startDateLabel">
                 <label for="startDateMenu">Departure date:
                     <input required class="input" name="start-date-menu" id="startDateMenu" type="date" min="2019-01-01" max="2030-12-31">
                 </label>
             </div>
-            <div class="booking-sections">
+            <div class="booking-sections" role="group" aria-labelledby="durationLabel">
                 <label for="durationInput">Duration of trip:
                     <input required class="input" name="duration-input" id="durationInput" type="number" min="1" placeholder="days">
                 </label>
             </div>
-            <div class="booking-sections">
+            <div class="booking-sections" role="group" aria-labelledby="travelersLabel">
                 <label for="numTravelersInput">Number of travelers:
                     <input required class="input" name="travelers-input" id="numTravelersInput" type="number" min="1" placeholder="travlers">
                 </label>
             </div>
             <div class="booking-btns">
-                <button class="cost-button" id="costBtn" type="button">Estimate Trip Cost</button>
-                <button class="book-button" id="bookBtn" type="button">Book Trip</button>
+                <button class="cost-button" id="costBtn" type="button" role="button">Estimate Trip Cost</button>
+                <button class="book-button" id="bookBtn" type="button" role="button">Book Trip</button>
             </div>
         </form>
     `;
@@ -124,7 +125,9 @@ function setupFormEventListeners(data) {
   const costBtn = document.getElementById("costBtn");
   const bookBtn = document.getElementById("bookBtn");
 
-  costBtn.addEventListener("click", () => singleTripCostButton(data.destinations));
+  costBtn.addEventListener("click", () =>
+    singleTripCostButton(data.destinations)
+  );
   bookBtn.addEventListener("click", () => bookTripButton(data));
 }
 
@@ -146,7 +149,9 @@ function addTripsToContainer(trips, containerClass) {
       tripArticle.classList.add("card");
       tripArticle.innerHTML = `
           <h3 class="card-destination">${trip.destination}</h3>
-          <img class="card-image" src="${trip.image}" alt="${trip.alt}">
+          <div class="image-container">
+            <img class="card-image" src="${trip.image}" alt="${trip.alt}">
+          </div>
           <p class="card-travelers">${trip.travelers} travelers</p>
           <p class="card-date">${trip.date}</p>
           <p class="card-duration">${trip.duration} days</p>
@@ -190,11 +195,6 @@ function organizeTrips(trips) {
   return organizedTrips;
 }
 
-function updateWelcomeTitle(name) {
-  const welcomeTitle = document.querySelector(".welcome-title");
-  welcomeTitle.textContent = `Welcome, ${name}`;
-}
-
 function buildBookingSection(destinations) {
   let menu = document.querySelector("#destinationMenu");
   destinations.forEach((place) => {
@@ -213,20 +213,20 @@ function getBookingInputs() {
 }
 
 function singleTripCostButton(destinations) {
-// DESTRUCTURING.. this is how to use the return val in HERE from the helper funtion out THERE
+  // DESTRUCTURING.. this is how to use the return val in HERE from the helper funtion out THERE
   const [destinationID, numDays, numTravelers] = getBookingInputs();
 
-    if (destinationID && numDays > 0 && numTravelers > 0) {
-      const singleTripCost = calculateSingleTripCost(
-        destinationID,
-        numTravelers,
-        numDays,
-        destinations
-      );
-      displayTripCost(singleTripCost);
-    } else {
-      fillOutAllFields();
-    }
+  if (destinationID && numDays > 0 && numTravelers > 0) {
+    const singleTripCost = calculateSingleTripCost(
+      destinationID,
+      numTravelers,
+      numDays,
+      destinations
+    );
+    displayTripCost(singleTripCost);
+  } else {
+    fillOutAllFields();
+  }
 }
 
 function displayTripCost(cost) {
@@ -245,12 +245,12 @@ function displayTripCost(cost) {
 function bookTripButton(data) {
   const [destinationID, numDays, numTravelers] = getBookingInputs();
 
-    if (destinationID && numDays > 0 && numTravelers > 0) {
-      processPostTripData(data);
-      successfulTripBooked()
-    } else {
-      fillOutAllFields();
-    }
+  if (destinationID && numDays > 0 && numTravelers > 0) {
+    processPostTripData(data);
+    successfulTripBooked();
+  } else {
+    fillOutAllFields();
+  }
 }
 
 function processPostTripData(data) {
@@ -264,7 +264,7 @@ function processPostTripData(data) {
     status: "pending",
     suggestedActivities: [],
   };
-  postTrip(tripData)
+  postTrip(tripData);
 }
 
 function successfulTripBooked() {
@@ -298,10 +298,32 @@ function displayTotalCost(totalCost) {
   costDisplayElement.textContent = `You've spent $${totalCost} on traveling the world!`;
 }
 
+function appendNewTripToDOM(newTrip, containerClass) {
+
+  const container = document.querySelector('.' + containerClass);
+  const message = document.querySelector('.no-trips-message');
+
+  const tripArticle = document.createElement("article");
+  tripArticle.classList.add("card");
+  tripArticle.innerHTML = `
+      <h3 class="card-destination">${newTrip.destination}</h3>
+      <div class="image-container">
+          <img class="card-image" src="${newTrip.image}" alt="${newTrip.alt}">
+      </div>
+      <p class="card-travelers">${newTrip.travelers} travelers</p>
+      <p class="card-date">${newTrip.date}</p>
+      <p class="card-duration">${newTrip.duration} days</p>
+  `;
+
+  if(message) message.remove();
+  container.appendChild(tripArticle);
+}
+
+
+
 export {
   renderInvalidLogin,
   renderDashboard,
-  updateWelcomeTitle,
   buildBookingSection,
   singleTripCostButton,
   bookTripButton,
@@ -310,4 +332,5 @@ export {
   clearTripContainers,
   checkAndDisplayEmptyMessage,
   displayTotalCost,
+  appendNewTripToDOM,
 };

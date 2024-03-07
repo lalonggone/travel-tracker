@@ -1,101 +1,58 @@
-# Webpack Starter Kit
+# Travel Tracker
 
-## Clone This Repo
+## Description
+Travel Tracker is a dynamic web application that allows users to plan, book, and track their trips around the world. With an easy-to-use interface, travelers can manage their upcoming, pending, and past trips, estimate travel costs, and view detailed information about their destinations. Please note that the data used in this application is made up for learning purposes.
 
-That's right, _clone_ not fork. You will use this repo multiple times, but you can only fork a repository once. So here is what you need to do to clone the repo and still be able to push changes to your repo:
+## Features
+- User Authentication: Secure login process to access personal travel dashboard.
+- Trip Planning: Users can select from 50 destinations, set travel dates, choose the number of travelers, and plan the duration of their trips.
+- Cost Estimation: Provides an estimated cost for each trip including flight and lodging, calculated dynamically based on user input.
+- Trip Management: Users can view their upcoming, pending, and past trips in organized sections.
+- Responsive Design: The application is fully responsive, ensuring a seamless experience across various devices and screen sizes.
 
-1. Clone down this repo. Since you don't want to name your project "webpack-starter-kit", you can use an optional argument when you run `git clone` (you replace the `[...]` with the terminal command arguments): `git clone [remote-address] [what you want to name the repo]`
-1. Remove the default remote: `git remote rm origin` (notice that `git remote -v` not gives you back nothing)
-1. Create a new repo on GitHub with the name of `[what you want to name the repo]` to be consistent with naming
-1. Copy the address that you would use to clone down this repo - something like `git@github.com:...`
-1. Add this remote to your cloned down repo: `git remote add origin [address you copied in the previous step]` - do not include the brackets
+## Installation and Setup
+1. Clone the repository:
+git clone https://github.com/your-username/travel-tracker.git
 
-Now try to commit something (just add a line in the README) and push it up to your new repo. If everything is setup correctly, you should see the changes on GitHub.
+2. Navigate to the project directory:
+cd travel-tracker
 
-
-
-## Setup
-
-After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo.
-
-Then install the library dependencies. Run:
-
-```bash
+3. Install the necessary dependencies:
 npm install
-```
 
-To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with the Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
-
-## Where to Add Your Code
-
-### JavaScript
-
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
-
-**Create all of your feature code files in the `src` directory.**
-
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
-
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
-
-### HTML
-
-Add the HTML you need in the `index.html` file in the `./dist` directory. There is some boilerplate HTML that exists from the start that you can modify.
-
-### Images
-
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`scripts.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
-
-## How to View Your Code in Action
-
-In the terminal, run:
-
-```bash
+4. Start the application:
 npm start
-```
 
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
+The app will be running on http://localhost:8080.
 
-```bash
-Project is running at http://localhost:8080/
-```
+## Backend Server Setup
+To fully utilize the Travel Tracker app, you will also need to run the backend server. Follow these steps to get the backend server running:
 
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
+1. Clone the backend repository:
+git clone https://github.com/your-username/travel-tracker-backend.git
 
----
+2. Navigate to the backend directory:
+cd travel-tracker-backend
 
-## Test Files Organization
+3. Install project dependencies:
+npm install
 
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
+4. Start the server:
+npm start
 
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
+Navigate to the address provided within the terminal, e.g., http://localhost:3001.
 
-## Running Your Tests
+## Usage
+Once both the frontend and backend servers are running, navigate to the Travel Tracker login page. You can log in with the following credentials:
+- Username: `traveler10` (the number at the end can be any number between 1-50 to get a different user)
+- Password: `travel`
 
-Run your test suite using the command:
+After logging in, the dashboard will display your trips categorized as upcoming, pending, or past. You can book new trips, estimate travel costs, and manage your trips through the dashboard interface.
 
-```bash
-npm test
-```
-
-The test results will output to the terminal.
-
----
-
-## Linting Your Code
-
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
-
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
-
-## Webpack?
-
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
-
-## Deploying to GitHub Pages
-
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
-
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
-
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.
+## Technologies Used
+- HTML
+- CSS/SCSS
+- JavaScript
+- Node.js
+- Express
+- Webpack

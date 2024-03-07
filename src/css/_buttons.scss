@@ -1,20 +1,21 @@
-button { 
-    font-family: $main-font;
-    background-color: $button-color;
-    border: none;
-    border-radius: 4px;
-    color: $light-text-color;
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    letter-spacing: 3px;
-    margin: 10px;
+button {
+  font-family: $main-font;
+  background-color: $button-color;
+  border: none;
+  border-radius: 4px;
+  color: $light-text-color;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  letter-spacing: 3px;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.03) 0px 6px 6px;
 
-    &:hover {
-        background-color: $button-hover-color;
-      }
+  &:hover {
+    background-color: $button-hover-color;
+  }
 }
 
 .booking-btns {
-margin-left: 30px;
+  margin-left: 30px;
 }
